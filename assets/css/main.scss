@@ -87,9 +87,8 @@ a:hover { text-decoration: underline; }
 .cv-identity { flex: 1 1 auto; min-width: 0; }
 .cv-header h1 { margin: 0 0 0.15rem; }
 .cv-header .cv-tagline { color: var(--muted); margin: 0; }
-.cv-contact { font-size: 0.9rem; color: var(--muted); text-align: right; flex: 0 0 auto; }
+.cv-contact { font-size: 0.88rem; color: var(--muted); margin: 0.3rem 0 0; }
 .cv-contact a { color: var(--muted); }
-.cv-contact div { margin-bottom: 0.15rem; }
 
 .cv-summary { margin-bottom: 1.5rem; }
 .cv-statement { margin: 0 0 0.5rem; }
@@ -166,8 +165,7 @@ a:hover { text-decoration: underline; }
 /* On narrow screens there isn't room for title and dates side by side at all,
    so let the dates drop to their own line rather than squeezing the title. */
 @media (max-width: 520px) {
-  .cv-header { flex-direction: column; align-items: flex-start; flex-wrap: wrap; }
-  .cv-contact { text-align: left; }
+  .cv-header { align-items: flex-start; }
   .cv-entry-head, .cv-edu-head { flex-wrap: wrap; }
 }
 

@@ -14,12 +14,7 @@ permalink: /board-cv/
   <div class="cv-identity">
     <h1>{{ site.data.cv.name }}</h1>
     <p class="cv-tagline">{{ site.data.cv.current_role }}</p>
-  </div>
-  <div class="cv-contact">
-    <div>{{ site.data.cv.location }}</div>
-    <div><a href="mailto:{{ site.data.cv.email }}">{{ site.data.cv.email }}</a></div>
-    <div>{{ site.data.cv.phone }}</div>
-    <div><a href="{{ site.data.cv.linkedin }}">{{ site.data.cv.linkedin | remove: "https://www." }}</a></div>
+    <p class="cv-contact">{{ site.data.cv.location }} &middot; {{ site.data.cv.phone }} &middot; <a href="mailto:{{ site.data.cv.email }}">{{ site.data.cv.email }}</a> &middot; <a href="{{ site.data.cv.linkedin }}">{{ site.data.cv.linkedin | remove: "https://www." | remove: "linkedin.com/in/" | remove: "/" }}</a></p>
   </div>
 </div>
 
