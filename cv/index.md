@@ -7,7 +7,6 @@ permalink: /board-cv/
 
 <div class="cv-print-link">
   <button type="button" class="print-btn" onclick="window.print()">Print / Save as PDF</button>
-  <span>In the print dialog, open <strong>More settings</strong> and untick <strong>Headers and footers</strong> &mdash; otherwise the browser stamps the date and page title into the margins.</span>
 </div>
 
 <div class="cv-header">
@@ -73,6 +72,7 @@ permalink: /board-cv/
       <span class="cv-edu-degree">{{ edu.degree }} &middot; <span class="cv-edu-institution">{% if edu.institution_url %}<a href="{{ edu.institution_url }}">{{ edu.institution }}</a>{% else %}{{ edu.institution }}{% endif %}</span></span>
       <span class="cv-entry-dates">{{ edu.dates }}</span>
     </div>
+    {% if edu.note %}<p class="cv-edu-note">{{ edu.note }}</p>{% endif %}
   </div>
   {% endfor %}
   <p class="cv-languages"><strong>Languages:</strong> {{ site.data.cv.languages }}</p>
