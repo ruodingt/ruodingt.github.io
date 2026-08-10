@@ -18,6 +18,6 @@ title: Home
 </p>
 
 <div class="home-links">
-  <a href="{{ '/cv/' | relative_url }}">View CV</a>
+  <a href="{{ '/board-cv/' | relative_url }}">View CV</a>
   <a href="{{ '/blog/' | relative_url }}">Read the blog</a>
 </div>

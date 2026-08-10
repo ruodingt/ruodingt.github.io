@@ -1,12 +1,13 @@
 ---
 layout: cv
-title: CV
-permalink: /cv/
+title: Board CV
+title_override: "Rod Tian Board CV"
+permalink: /board-cv/
 ---
 
 <div class="cv-print-link">
   <button type="button" class="print-btn" onclick="window.print()">Print / Save as PDF</button>
-  <span>Turn off &ldquo;Headers and footers&rdquo; in the print dialog so no URL, date, or page number is stamped into the margins.</span>
+  <span>In the print dialog, open <strong>More settings</strong> and untick <strong>Headers and footers</strong> &mdash; otherwise the browser stamps the date and page title into the margins.</span>
 </div>
 
 <div class="cv-header">
@@ -69,7 +70,7 @@ permalink: /cv/
   {% for edu in site.data.cv.education %}
   <div class="cv-edu-entry">
     <div class="cv-edu-head">
-      <span class="cv-edu-degree">{{ edu.degree }} &middot; <span class="cv-edu-institution">{{ edu.institution }}</span></span>
+      <span class="cv-edu-degree">{{ edu.degree }} &middot; <span class="cv-edu-institution">{% if edu.institution_url %}<a href="{{ edu.institution_url }}">{{ edu.institution }}</a>{% else %}{{ edu.institution }}{% endif %}</span></span>
       <span class="cv-entry-dates">{{ edu.dates }}</span>
     </div>
   </div>
