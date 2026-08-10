@@ -10,7 +10,8 @@ permalink: /board-cv/
 </div>
 
 <div class="cv-header">
-  <div>
+  <img class="cv-photo" src="{{ '/assets/img/headshot.jpg' | relative_url }}" alt="">
+  <div class="cv-identity">
     <h1>{{ site.data.cv.name }}</h1>
     <p class="cv-tagline">{{ site.data.cv.current_role }}</p>
   </div>

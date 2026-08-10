@@ -7,7 +7,7 @@ title: Home
   <img src="{{ '/assets/img/headshot.jpg' | relative_url }}" alt="Rod (Ruoding) Tian">
   <div>
     <h1>Rod (Ruoding) Tian</h1>
-    <p class="tagline">Machine Learning / Data / Platform Engineering &mdash; Melbourne, Australia</p>
+    <p class="tagline">Founding Engineer &mdash; Melbourne, Australia</p>
   </div>
 </div>
 
