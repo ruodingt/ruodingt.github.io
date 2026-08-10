@@ -40,8 +40,7 @@ experience:
     context: "ANZ's digital bank, which passed one million customers in 2025."
     achievements:
       - "Drove the initiative that put automatic triage of customer enquiries into production, with human-in-the-loop quality assurance &mdash; work the contact centre previously did by hand."
-      - "Co-authored the bank's reference paper on running machine-learning experiments responsibly. Written from the engineering side and endorsed by security and architecture, it gives teams an agreed regulatory path instead of working one out project by project."
-      - "Moved analytics off local laptops onto governed cloud environments."
+      - "Sat on a technology committee and co-authored its position paper on running machine-learning experiments responsibly. It gave teams across the bank a clear pattern for building AI inside the guardrails, instead of working the path out project by project."
       - "Coordinated live production incidents under the central risk team's process: bringing the right teams together, driving the fix, and formally closing each incident."
   - company: "BizPay"
     title: "Machine Learning Engineer (Contract)"
