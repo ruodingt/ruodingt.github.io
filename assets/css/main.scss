@@ -77,9 +77,41 @@ a:hover { text-decoration: underline; }
 .post-list { list-style: none; padding: 0; }
 .post-list li { margin-bottom: 1rem; }
 .post-list time { color: var(--muted); font-size: 0.85rem; display: block; }
+.post-list-subtitle { display: block; color: var(--muted); font-size: 0.95rem; }
 
 /* Blog post */
+.post-subtitle { color: var(--muted); font-size: 1.15rem; margin: -0.35rem 0 0.75rem; }
 .post-meta { color: var(--muted); font-size: 0.85rem; margin: 0 0 1.25rem; }
+.post h2 { margin: 2.25rem 0 0.75rem; font-size: 1.25rem; }
+.post figure { margin: 2rem 0; }
+.post figure img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+/* A hanging scroll is roughly 1:2, so full column width would run two screens
+   tall. Cap it and let the caption link out to the high-resolution original. */
+.post figure.portrait img { max-width: 460px; }
+.post figure.plate img { max-width: 420px; }
+.post figcaption {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0.7rem auto 0;
+  max-width: 34rem;
+}
+
+/* Quoted source text sits in its own column: first line is the original,
+   the paragraph after it is the translation. */
+.post blockquote {
+  margin: 1.5rem 0;
+  padding: 0.1rem 0 0.1rem 1.15rem;
+  border-left: 2px solid var(--accent);
+  color: var(--muted);
+}
+.post blockquote p { margin: 0.5rem 0; }
+.post blockquote p:first-child {
+  color: var(--ink);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
 
 /* CV */
 .cv-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; gap: 1rem; margin-bottom: 1.5rem; }
