@@ -1,0 +1,22 @@
+version: '3'
+
+tasks:
+  install:
+    desc: Install Ruby gem dependencies
+    cmds:
+      - bundle install
+
+  serve:
+    desc: Run the local dev server with live reload at http://localhost:4000
+    cmds:
+      - bundle exec jekyll serve --livereload
+
+  build:
+    desc: Build the static site into _site/
+    cmds:
+      - bundle exec jekyll build
+
+  clean:
+    desc: Remove build output and Jekyll cache
+    cmds:
+      - rm -rf _site .jekyll-cache .sass-cache

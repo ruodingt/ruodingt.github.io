@@ -1,0 +1,156 @@
+---
+---
+:root {
+  --ink: #1b1f23;
+  --muted: #5b6570;
+  --accent: #0f6f5c;
+  --bg: #ffffff;
+  --border: #e3e6e9;
+  --max-width: 760px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.55;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.site-header { border-bottom: 1px solid var(--border); }
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+}
+.site-header .brand { font-weight: 700; color: var(--ink); }
+.site-header .nav a { margin-left: 1.25rem; color: var(--ink); font-size: 0.95rem; }
+.site-header .nav a:hover { color: var(--accent); }
+
+.page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.site-footer { border-top: 1px solid var(--border); margin-top: 2rem; }
+.site-footer .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.site-footer .fun-link { color: var(--muted); }
+.site-footer .fun-link:hover { color: var(--accent); }
+
+/* Home page */
+.home-hero { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+.home-hero img { width: 128px; height: 128px; border-radius: 50%; object-fit: cover; }
+.home-hero h1 { margin: 0 0 0.25rem; }
+.home-hero .tagline { color: var(--muted); margin: 0; }
+.home-links { margin-top: 1.5rem; }
+.home-links a {
+  display: inline-block;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--ink);
+}
+.home-links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+/* Blog list */
+.post-list { list-style: none; padding: 0; }
+.post-list li { margin-bottom: 1rem; }
+.post-list time { color: var(--muted); font-size: 0.85rem; display: block; }
+
+/* Blog post */
+.post-meta { color: var(--muted); font-size: 0.85rem; margin: 0 0 1.25rem; }
+
+/* CV */
+.cv-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+.cv-header h1 { margin: 0 0 0.15rem; }
+.cv-header .cv-tagline { color: var(--muted); margin: 0; }
+.cv-contact { font-size: 0.9rem; color: var(--muted); text-align: right; }
+.cv-contact a { color: var(--muted); }
+.cv-contact div { margin-bottom: 0.15rem; }
+
+.cv-summary { margin-bottom: 1.5rem; }
+
+.cv-section h2 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.25rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.cv-entry { margin-bottom: 1.1rem; page-break-inside: avoid; break-inside: avoid; }
+/* nowrap + min-width:0 on the title makes a long title wrap onto its own
+   second line while the dates stay right-aligned on the first. With
+   flex-wrap:wrap the browser wraps the whole dates item down instead of
+   letting the title shrink, which reads as a misaligned row. */
+.cv-entry-head { display: flex; justify-content: space-between; flex-wrap: nowrap; gap: 0.25rem 1rem; }
+.cv-entry-title { font-weight: 600; flex: 1 1 auto; min-width: 0; }
+.cv-entry-company { color: var(--muted); }
+.cv-entry-dates { color: var(--muted); font-size: 0.85rem; white-space: nowrap; flex: 0 0 auto; }
+.cv-entry-context { color: var(--muted); font-size: 0.85rem; margin: 0.15rem 0 0.35rem; }
+.cv-entry ul { margin: 0.35rem 0 0; padding-left: 1.1rem; }
+.cv-entry li { margin-bottom: 0.2rem; font-size: 0.95rem; }
+
+.cv-edu-entry { margin-bottom: 0.75rem; page-break-inside: avoid; break-inside: avoid; }
+.cv-edu-head { display: flex; justify-content: space-between; flex-wrap: nowrap; gap: 0.25rem 1rem; }
+.cv-edu-degree { font-weight: 600; flex: 1 1 auto; min-width: 0; }
+.cv-edu-institution { color: var(--muted); }
+.cv-edu-note { font-size: 0.9rem; margin: 0.15rem 0 0; }
+
+.cv-skills { padding-left: 1.1rem; margin: 0; }
+.cv-skills li { margin-bottom: 0.25rem; font-size: 0.95rem; }
+
+.cv-print-link { margin-bottom: 1.5rem; font-size: 0.9rem; }
+
+/* On narrow screens there isn't room for title and dates side by side at all,
+   so let the dates drop to their own line rather than squeezing the title. */
+@media (max-width: 520px) {
+  .cv-header { flex-direction: column; }
+  .cv-contact { text-align: left; }
+  .cv-entry-head, .cv-edu-head { flex-wrap: wrap; }
+}
+
+@media print {
+  @page { size: A4; margin: 12mm; }
+  .site-header, .site-footer, .cv-print-link { display: none !important; }
+  html { font-size: 10.5pt; }
+  body { font-size: 1rem; }
+  .page { max-width: none; padding: 0; margin: 0; }
+  a { color: var(--ink); text-decoration: none; }
+  .cv-section h2 { color: var(--ink); page-break-after: avoid; break-after: avoid; margin-top: 1.1rem; margin-bottom: 0.5rem; }
+
+  /* Tighter vertical rhythm in print so entries pack without an entry-sized
+     gap opening at a page break (a .cv-entry can't split, so a near-miss
+     leaves the whole block's height blank at the bottom of the page). */
+  .cv-summary { margin-bottom: 1rem; }
+  .cv-entry { margin-bottom: 0.7rem; }
+  .cv-entry ul { margin-top: 0.2rem; }
+  .cv-entry li { margin-bottom: 0.1rem; }
+  .cv-entry-context { margin: 0.1rem 0 0.2rem; }
+  .cv-edu-entry { margin-bottom: 0.5rem; }
+  .cv-skills li { margin-bottom: 0.15rem; }
+}

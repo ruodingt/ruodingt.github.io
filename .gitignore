@@ -127,3 +127,17 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Jekyll
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+.bundle/
+vendor/
+
+# Agent runtime data (local telemetry, not part of the site)
+ruvector.db
+agentdb.rvf
+agentdb.rvf.lock
+.claude-flow/

@@ -1,0 +1,25 @@
+title: "Rod (Ruoding) Tian"
+tagline: "Machine Learning / Data / Platform Engineering"
+email: t.ruoding@gmail.com
+author: "Rod (Ruoding) Tian"
+description: "CV and blog for Rod (Ruoding) Tian — machine learning, data, and platform engineering leadership."
+baseurl: ""
+url: "https://ruodingt.github.io"
+
+markdown: kramdown
+
+plugins:
+  - jekyll-feed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - Taskfile.yml
+  - docs/
+  - README.md
+  - vendor/
+  - ruvector.db
+  - agentdb.rvf
+  - agentdb.rvf.lock
+  - .claude-flow/
+  - .superpowers/
