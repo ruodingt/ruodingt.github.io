@@ -1,5 +1,7 @@
 name: "Rod (Ruoding) Tian"
-current_role: "AI and data &mdash; regulated banking to early-stage startups"
+# The guide's contact section asks for current job title and organisation, so
+# the tagline carries those rather than a standalone positioning line.
+current_role: "Founding Engineer, Looksi &middot; AI, data and commercial operations"
 location: "Melbourne, VIC, Australia"
 email: "t.ruoding@gmail.com"
 # No phone here on purpose: this page is public and crawlable, and CSS-hiding
