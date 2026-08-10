@@ -145,3 +145,5 @@ ruvector.db
 agentdb.rvf
 agentdb.rvf.lock
 .claude-flow/
+.claude/
+.swarm/
