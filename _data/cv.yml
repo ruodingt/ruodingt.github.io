@@ -2,7 +2,9 @@ name: "Rod (Ruoding) Tian"
 current_role: "AI and data &mdash; regulated banking to early-stage startups"
 location: "Melbourne, VIC, Australia"
 email: "t.ruoding@gmail.com"
-phone: "+61 422 755 619"
+# No phone here on purpose: this page is public and crawlable, and CSS-hiding
+# would still leave the number in the served HTML. It goes on the application
+# form instead.
 linkedin: "https://www.linkedin.com/in/ruodingt-tian/"
 
 # The Observership CV guide calls this the most important section: 200-300
