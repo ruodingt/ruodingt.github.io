@@ -26,12 +26,12 @@ attributes:
 
 experience:
   - company: "Looksi"
-    title: "[TO ADD &mdash; your job title]"
-    dates: "[TO ADD &mdash; start date] &ndash; Present"
+    title: "Founding Engineer"
+    dates: "Jul 2026 &ndash; Present"
     location: "Melbourne, VIC"
     achievements:
       - "Early-stage startup building the infrastructure that lets banks look after home loan customers they cannot serve today."
-      - "[TO ADD &mdash; what you are accountable for, and what changed because of it.]"
+      - "Accountable for the commercial foundations a small team runs on: website and search presence, CRM, and automating manual process the company cannot afford to carry by hand."
   - company: "ANZ Plus"
     title: "Senior Engineer, Customer Engagement AI (from Platform and Data Engineer)"
     dates: "Jun 2022 &ndash; Dec 2025"
@@ -86,4 +86,3 @@ education:
 
 development:
   - "Languages: English (full professional), Mandarin Chinese (native)"
-  - "[TO ADD &mdash; governance training or professional development, if any]"
