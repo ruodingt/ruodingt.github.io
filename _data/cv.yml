@@ -28,7 +28,7 @@ experience:
     dates: "Jul 2026 &ndash; Present"
     location: "Melbourne, VIC"
     achievements:
-      - "Building the commercial foundations of an early-stage startup helping banks serve home loan customers they cannot reach today: website, search, CRM and process automation."
+      - "Built the commercial foundations an early-stage startup runs on &mdash; website, search presence, CRM, process automation &mdash; so a small team operates without hiring a specialist for each function."
   - title: "Creative sabbatical"
     dates: "Jan 2026 &ndash; Jun 2026"
     achievements:
@@ -38,9 +38,9 @@ experience:
     dates: "Jun 2022 &ndash; Dec 2025"
     location: "Melbourne, VIC"
     achievements:
-      - "Led an AI squad automating enquiry triage and human-in-the-loop quality assurance in the contact centre."
-      - "Co-authored the bank's position paper on running machine-learning experiments responsibly, and lifted data-governance awareness across teams."
-      - "Incident commander for live production incidents."
+      - "Led an AI squad whose systems now triage customer enquiries automatically and run quality assurance with a human in the loop, work the contact centre previously did by hand."
+      - "Co-authored the position paper that became the bank's reference for running machine-learning experiments responsibly, and moved analytics off local laptops onto governed cloud environments."
+      - "Incident commander for live production incidents, restoring service and holding communication while causes were still unknown."
   - company: "BizPay"
     title: "Machine Learning Engineer (Contract)"
     dates: "Jan 2022 &ndash; Apr 2022"
@@ -52,20 +52,20 @@ experience:
     dates: "Nov 2020 &ndash; Jan 2022"
     location: "Melbourne, VIC"
     achievements:
-      - "Led the research and engineering behind the core product, and grew the team delivering it."
-      - "Brought in two professors as advisors and a consulting partner, closing capability gaps the company could not hire for."
+      - "Led the research and engineering behind the capability the core product depended on, and grew the team that now sustains it."
+      - "Facing a hiring shortage in a narrow specialism, brought in two professors who became advisors and went on to introduce further talent, and a consulting partner who closed the company's cloud knowledge gap at no cost."
   - company: "Pearlii"
     title: "Founding Machine Learning Engineer"
     dates: "Nov 2019 &ndash; Nov 2020"
     location: "Fitzroy, VIC"
     achievements:
-      - "Founding engineer for free smartphone-based oral health screening. Owned the technology end to end, built a team of practising dentists to assure its clinical judgements, and joined the founder in investor meetings."
+      - "Founding engineer for a free smartphone-based oral health check, built for people who put off seeing a dentist on cost. Owned the technology end to end, built a team of practising dentists whose review made its clinical judgements trustworthy, and joined the founder in investor meetings."
 
 community:
   - title: "Youth cultural education, Shangri-La"
     detail: "Residential summer school introducing young people to Chinese cultural traditions and Tibetan Buddhist scholarship, taught by visiting scholars; participant, then staff."
   - title: "Connecting people and institutions"
-    detail: "Professors into advisory roles, and an industry partner for a PhD group whose Australian Research Council application would otherwise have lapsed."
+    detail: "Professors into advisory roles, and an industry partner for a PhD group whose Australian Research Council application would otherwise have lapsed &mdash; the two reached agreement and the application went ahead."
   - title: "Mentoring and teaching"
     detail: "Informal mentoring of engineers, and AI workshops for colleagues without a technical background."
 
