@@ -4,6 +4,11 @@ tasks:
   install:
     desc: Install Ruby gem dependencies
     cmds:
+      # Install into vendor/bundle rather than the system Ruby gem dir.
+      # macOS ships Ruby under /Library/Ruby, which is not writable without
+      # root, so a plain `bundle install` fails with a PermissionError.
+      # Writes .bundle/config, which is gitignored; CI sets its own path.
+      - bundle config set --local path vendor/bundle
       - bundle install
 
   serve:
