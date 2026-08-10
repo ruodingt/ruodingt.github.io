@@ -75,9 +75,5 @@ permalink: /board-cv/
     </div>
   </div>
   {% endfor %}
-  <ul class="cv-skills">
-    {% for d in site.data.cv.development %}
-    <li>{% if d contains "[TO ADD" %}<span class="cv-todo">{{ d }}</span>{% else %}{{ d }}{% endif %}</li>
-    {% endfor %}
-  </ul>
+  <p class="cv-languages"><strong>Languages:</strong> {{ site.data.cv.languages }}</p>
 </section>

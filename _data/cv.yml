@@ -1,5 +1,5 @@
 name: "Rod (Ruoding) Tian"
-current_role: "Machine Learning &amp; Platform Engineer &middot; Looksi"
+current_role: "Founding Engineer &middot; Looksi"
 location: "Melbourne, VIC, Australia"
 email: "t.ruoding@gmail.com"
 phone: "+61 422 755 619"
@@ -9,9 +9,8 @@ linkedin: "https://www.linkedin.com/in/ruodingt-tian/"
 # words, at the top, covering who you are, professional value, community
 # connection, and values/motivation.
 statement:
-  - "I grew up in south-east China, studied engineering in Beijing, and came to Melbourne in 2017 for a masters in data science. Moving twice, the second time without a local network, taught me how much depends on the systems that make room for newcomers &mdash; and how easily someone falls outside them. Working in two languages every day, I tend to notice whose voice is missing from a room."
-  - "Since then I have taken AI and data initiatives from ambiguity through to production: in a regulated bank, in a scale-up, and as founding engineer of a health-technology startup. I am usually the person who gives an ill-defined problem structure &mdash; leading a squad, acting as incident commander when systems fail, or setting the standards a team works to. I have learned to be sceptical of technology presented as inevitable, and to ask what a system does to the people at the far end of it."
-  - "The causes that hold me are ones where a system quietly fails the people it was meant to serve. Pearlii set out to become a social enterprise addressing oral health poverty; Looksi is building infrastructure so banks can look after home loan customers they cannot serve today. Fifteen years ago I helped run a summer camp in Shangri-La introducing young people to Chinese cultural traditions and Tibetan Buddhist scholarship &mdash; seed-planting work, widening their sense of what a life could look like. I mentor engineers and teach AI to non-specialists, because putting technical risk into plain language is a governance skill rather than a courtesy. I want to be an Observer to learn how boards genuinely reach decisions, and to be useful where the gap is &mdash; I would rather find the gap than wait to be handed one. In time I would like to serve as a director."
+  - "I grew up in south-east China, studied engineering in Beijing, and came to Melbourne in 2017 for a masters in data science. Moving twice, the second time without a local network, taught me how much depends on the systems that make room for newcomers &mdash; and how easily someone falls outside them. Since then I have taken AI and data initiatives from ambiguity through to production: in a regulated bank, in a scale-up, and as founding engineer of two startups. I am usually the person who gives an ill-defined problem structure, and I have learned to be sceptical of technology presented as inevitable &mdash; to ask what a system does to the people at the far end of it."
+  - "The causes that hold me are ones where a system quietly fails the people it was meant to serve. Pearlii set out to address oral health poverty; Looksi is building infrastructure so banks can look after home loan customers they cannot serve today. Fifteen years ago I helped run a summer camp in Shangri-La, widening young people's sense of what a life could look like. I mentor engineers and teach AI to non-specialists, because putting technical risk into plain language is a governance skill rather than a courtesy. I want to be an Observer to learn how boards genuinely reach decisions, and to be useful where the gap is. In time I would like to serve as a director."
 
 # The guide asks for up to four, translated into what a board needs.
 attributes:
@@ -89,5 +88,4 @@ education:
     dates: "2015"
     location: "Beijing, China"
 
-development:
-  - "Languages: English (full professional), Mandarin Chinese (native)"
+languages: "English and Mandarin Chinese"
