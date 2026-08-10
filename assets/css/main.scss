@@ -90,6 +90,19 @@ a:hover { text-decoration: underline; }
 .cv-contact div { margin-bottom: 0.15rem; }
 
 .cv-summary { margin-bottom: 1.5rem; }
+.cv-statement { margin: 0 0 0.5rem; }
+.cv-attributes { padding-left: 1.1rem; margin: 0; }
+.cv-attributes li { margin-bottom: 0.3rem; }
+
+/* Placeholders still to fill in. Deliberately loud, and loud in print too,
+   so a half-finished CV can't be exported and submitted without noticing. */
+.cv-todo {
+  background: #ffe9a8;
+  color: #6b4b00;
+  border-left: 3px solid #c98a00;
+  padding: 0.15rem 0.4rem;
+  display: inline-block;
+}
 
 .cv-section h2 {
   font-size: 0.95rem;
@@ -156,13 +169,19 @@ a:hover { text-decoration: underline; }
 }
 
 @media print {
-  @page { size: A4; margin: 12mm; }
+  /* The Observership CV guide requires min 2cm margins and an 11-12pt body. */
+  @page { size: A4; margin: 20mm; }
   .site-header, .site-footer, .cv-print-link { display: none !important; }
-  html { font-size: 10.5pt; }
-  body { font-size: 1rem; }
+  html { font-size: 11pt; }
+  body { font-size: 1rem; line-height: 1.42; }
   .page { max-width: none; padding: 0; margin: 0; }
   a { color: var(--ink); text-decoration: none; }
-  .cv-section h2 { color: var(--ink); page-break-after: avoid; break-after: avoid; margin-top: 1.1rem; margin-bottom: 0.5rem; }
+  .cv-section h2 { color: var(--ink); page-break-after: avoid; break-after: avoid; margin-top: 0.8rem; margin-bottom: 0.35rem; padding-bottom: 0.12rem; }
+  .cv-header { margin-bottom: 0.8rem; }
+  .cv-statement { margin-bottom: 0.35rem; }
+  .cv-attributes li { margin-bottom: 0.15rem; }
+  .cv-edu-entry { margin-bottom: 0.25rem; }
+  .cv-skills { margin-top: 0.25rem; }
 
   /* Tighter vertical rhythm in print so entries pack without an entry-sized
      gap opening at a page break (a .cv-entry can't split, so a near-miss
