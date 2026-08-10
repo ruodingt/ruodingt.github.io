@@ -43,8 +43,8 @@ permalink: /cv/
   {% for job in site.data.cv.experience %}
   <div class="cv-entry">
     <div class="cv-entry-head">
-      <span class="cv-entry-title">{% if job.title contains "[TO ADD" %}<span class="cv-todo">{{ job.title }}</span>{% else %}{{ job.title }}{% endif %} &middot; <span class="cv-entry-company">{{ job.company }}</span></span>
-      <span class="cv-entry-dates">{% if job.dates contains "[TO ADD" %}<span class="cv-todo">{{ job.dates }}</span>{% else %}{{ job.dates }}{% endif %} &middot; {{ job.location }}</span>
+      <span class="cv-entry-title">{{ job.title }}{% if job.company %} &middot; <span class="cv-entry-company">{{ job.company }}</span>{% endif %}</span>
+      <span class="cv-entry-dates">{{ job.dates }}{% if job.location %} &middot; {{ job.location }}{% endif %}</span>
     </div>
     <ul>
       {% for item in job.achievements %}
