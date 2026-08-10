@@ -124,7 +124,28 @@ a:hover { text-decoration: underline; }
 .cv-skills { padding-left: 1.1rem; margin: 0; }
 .cv-skills li { margin-bottom: 0.25rem; font-size: 0.95rem; }
 
-.cv-print-link { margin-bottom: 1.5rem; font-size: 0.9rem; }
+.cv-print-link {
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.print-btn {
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.print-btn:hover { filter: brightness(1.08); }
+.print-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* On narrow screens there isn't room for title and dates side by side at all,
    so let the dates drop to their own line rather than squeezing the title. */

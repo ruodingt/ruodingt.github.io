@@ -4,7 +4,10 @@ title: CV
 permalink: /cv/
 ---
 
-<p class="cv-print-link">Use your browser's Print &rarr; Save as PDF to export this page as a 2-page PDF, and turn off "Headers and footers" in the print dialog so no URL, date, or page number is stamped into the margins.</p>
+<div class="cv-print-link">
+  <button type="button" class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+  <span>Turn off &ldquo;Headers and footers&rdquo; in the print dialog so no URL, date, or page number is stamped into the margins.</span>
+</div>
 
 <div class="cv-header">
   <div>
