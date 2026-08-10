@@ -14,7 +14,7 @@ permalink: /board-cv/
   <div class="cv-identity">
     <h1>{{ site.data.cv.name }}</h1>
     <p class="cv-tagline">{{ site.data.cv.current_role }}</p>
-    <p class="cv-contact">{{ site.data.cv.location }} &middot; {{ site.data.cv.phone }} &middot; <a href="mailto:{{ site.data.cv.email }}">{{ site.data.cv.email }}</a> &middot; <a href="{{ site.data.cv.linkedin }}">{{ site.data.cv.linkedin | remove: "https://www." | remove: "linkedin.com/in/" | remove: "/" }}</a></p>
+    <p class="cv-contact">{{ site.data.cv.location }}<span class="cv-phone"> &middot; {{ site.data.cv.phone }}</span> &middot; <a href="mailto:{{ site.data.cv.email }}">{{ site.data.cv.email }}</a> &middot; <a href="{{ site.data.cv.linkedin }}">{{ site.data.cv.linkedin | remove: "https://www." | remove: "linkedin.com/in/" | remove: "/" }}</a></p>
   </div>
 </div>
 
@@ -42,11 +42,14 @@ permalink: /board-cv/
       <span class="cv-entry-title">{{ job.title }}{% if job.company %} &middot; <span class="cv-entry-company">{{ job.company }}</span>{% endif %}</span>
       <span class="cv-entry-dates">{{ job.dates }}{% if job.location %} &middot; {{ job.location }}{% endif %}</span>
     </div>
+    {% if job.context %}<p class="cv-entry-context">{{ job.context }}</p>{% endif %}
+    {% if job.achievements %}
     <ul>
       {% for item in job.achievements %}
       <li>{% if item contains "[TO ADD" %}<span class="cv-todo">{{ item }}</span>{% else %}{{ item }}{% endif %}</li>
       {% endfor %}
     </ul>
+    {% endif %}
   </div>
   {% endfor %}
 </section>

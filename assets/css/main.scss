@@ -89,6 +89,8 @@ a:hover { text-decoration: underline; }
 .cv-header .cv-tagline { color: var(--muted); margin: 0; }
 .cv-contact { font-size: 0.88rem; color: var(--muted); margin: 0.3rem 0 0; }
 .cv-contact a { color: var(--muted); }
+/* Phone is for the PDF a selection panel receives, not for a crawlable page. */
+.cv-phone { display: none; }
 
 .cv-summary { margin-bottom: 1.5rem; }
 .cv-statement { margin: 0 0 0.5rem; }
@@ -179,6 +181,7 @@ a:hover { text-decoration: underline; }
   a { color: var(--ink); text-decoration: none; }
   .cv-section h2 { color: var(--ink); page-break-after: avoid; break-after: avoid; margin-top: 0.8rem; margin-bottom: 0.35rem; padding-bottom: 0.12rem; }
   .cv-header { margin-bottom: 0.8rem; }
+  .cv-phone { display: inline; }
   .cv-photo { width: 68px; height: 68px; }
   .cv-statement { margin-bottom: 0.35rem; }
   .cv-attributes li { margin-bottom: 0.15rem; }
