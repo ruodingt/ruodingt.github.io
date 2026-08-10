@@ -55,6 +55,19 @@ permalink: /board-cv/
 </section>
 
 <section class="cv-section">
+  <h2>Volunteer Experience</h2>
+  {% for v in site.data.cv.volunteer %}
+  <div class="cv-entry">
+    <div class="cv-entry-head">
+      <span class="cv-entry-title">{{ v.role }} &middot; <span class="cv-entry-company">{{ v.org }}</span></span>
+      <span class="cv-entry-dates">{{ v.dates }}{% if v.location %} &middot; {{ v.location }}{% endif %}</span>
+    </div>
+    {% if v.detail %}<p class="cv-entry-context">{% if v.detail contains "[TO ADD" %}<span class="cv-todo">{{ v.detail }}</span>{% else %}{{ v.detail }}{% endif %}</p>{% endif %}
+  </div>
+  {% endfor %}
+</section>
+
+<section class="cv-section">
   <h2>Community and Mentoring</h2>
   <ul class="cv-attributes">
     {% for c in site.data.cv.community %}

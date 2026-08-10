@@ -174,10 +174,10 @@ a:hover { text-decoration: underline; }
   @page { size: A4; margin: 20mm; }
   .site-header, .site-footer, .cv-print-link { display: none !important; }
   html { font-size: 11pt; }
-  body { font-size: 1rem; line-height: 1.42; }
+  body { font-size: 1rem; line-height: 1.36; }
   .page { max-width: none; padding: 0; margin: 0; }
   a { color: var(--ink); text-decoration: none; }
-  .cv-section h2 { color: var(--ink); page-break-after: avoid; break-after: avoid; margin-top: 0.8rem; margin-bottom: 0.35rem; padding-bottom: 0.12rem; }
+  .cv-section h2 { color: var(--ink); page-break-after: avoid; break-after: avoid; margin-top: 0.6rem; margin-bottom: 0.28rem; padding-bottom: 0.1rem; }
   .cv-header { margin-bottom: 0.8rem; }
   .cv-photo { width: 68px; height: 68px; }
   .cv-statement { margin-bottom: 0.35rem; }
@@ -185,11 +185,18 @@ a:hover { text-decoration: underline; }
   .cv-edu-entry { margin-bottom: 0.25rem; }
   .cv-skills { margin-top: 0.25rem; }
 
-  /* Tighter vertical rhythm in print so entries pack without an entry-sized
-     gap opening at a page break (a .cv-entry can't split, so a near-miss
-     leaves the whole block's height blank at the bottom of the page). */
+  /* The content runs to ~1.9 A4 pages, so the binding constraint on the guide's
+     two-page maximum is pagination, not length: an unbreakable entry that
+     misses the bottom of a page wastes its own height in blank space, and a
+     few of those push a third page. Let entries split, and lean on
+     orphans/widows so a split never strands a single line. Education entries
+     are short enough to keep whole. */
+  .cv-entry { page-break-inside: auto; break-inside: auto; }
+  p, li { orphans: 2; widows: 2; }
+
+  /* Tighter vertical rhythm so entries pack closely once they can split. */
   .cv-summary { margin-bottom: 1rem; }
-  .cv-entry { margin-bottom: 0.7rem; }
+  .cv-entry { margin-bottom: 0.5rem; }
   .cv-entry ul { margin-top: 0.2rem; }
   .cv-entry li { margin-bottom: 0.1rem; }
   .cv-entry-context { margin: 0.1rem 0 0.2rem; }
