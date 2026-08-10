@@ -62,8 +62,8 @@ experience:
     location: "Fitzroy, VIC"
     context: "A social-mission startup: a free smartphone-based tooth check, built to raise oral health awareness and narrow the gap for people who put off seeing a dentist on cost."
     achievements:
-      - "Joined before the company was incorporated and owned the technology end to end, building a panel of practising dentists whose review made its clinical judgements trustworthy."
-      - "Joined the founder in investor meetings."
+      - "Joined before the company was incorporated and owned the technology end to end, bringing in practising dentists as subject-matter experts to annotate the data the model learned from."
+      - "Worked with the founders to prepare for investor meetings."
 
 # The CV guide asks that volunteer and not-for-profit experience be clearly
 # separated from professional experience, so these carry dates of their own.
