@@ -136,6 +136,10 @@ _site/
 .bundle/
 vendor/
 
+# Drafts and application material. This repo is public: anything committed
+# here is published, so personal documents stay out of it.
+.private-docs/
+
 # Agent runtime data (local telemetry, not part of the site)
 ruvector.db
 agentdb.rvf
