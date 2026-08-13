@@ -1,15 +1,33 @@
 title: "Rod (Ruoding) Tian"
 tagline: "AI and data engineering, and writing"
 email: t.ruoding@gmail.com
-author: "Rod (Ruoding) Tian"
 description: "Rod (Ruoding) Tian — engineer in Melbourne. AI and data from ambiguity to production, and writing on art, books, and the systems people live inside."
 baseurl: ""
 url: "https://ruodingt.github.io"
+lang: en
+
+# Used by jekyll-seo-tag for Open Graph, Twitter Cards, and JSON-LD.
+author:
+  name: "Rod (Ruoding) Tian"
+logo: /assets/img/headshot.jpg
+social:
+  name: "Rod (Ruoding) Tian"
+  links:
+    - https://github.com/ruodingt
 
 markdown: kramdown
 
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Default social preview image for pages that don't set their own.
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/img/headshot.jpg
 
 exclude:
   - Gemfile
