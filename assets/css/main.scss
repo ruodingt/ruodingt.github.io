@@ -9,6 +9,18 @@
   --max-width: 760px;
 }
 
+/* 丁火 in 子 winter: a lamp-flame only shows against the dark. Deep water-ink
+   ground, the wood-green accent brightened so it reads as a held flame. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e6ebe8;
+    --muted: #8a959a;
+    --accent: #3fb89b;
+    --bg: #0c1013;
+    --border: #222a2e;
+  }
+}
+
 * { box-sizing: border-box; }
 
 body {
@@ -204,6 +216,15 @@ a:hover { text-decoration: underline; }
 @media print {
   /* The Observership CV guide requires min 2cm margins and an 11-12pt body. */
   @page { size: A4; margin: 20mm; }
+  /* Force the light palette so printing from a dark-themed OS stays
+     black-on-white rather than light ink on a dark ground. */
+  :root {
+    --ink: #1b1f23;
+    --muted: #5b6570;
+    --accent: #0f6f5c;
+    --bg: #ffffff;
+    --border: #e3e6e9;
+  }
   .site-header, .site-footer, .cv-print-link { display: none !important; }
   html { font-size: 11pt; }
   body { font-size: 1rem; line-height: 1.36; }
