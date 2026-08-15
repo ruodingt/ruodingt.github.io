@@ -1,6 +1,49 @@
 <footer class="site-footer">
   <div class="wrap">
     <span>&copy; {{ site.time | date: "%Y" }} {{ site.title }}</span>
-    <a class="fun-link" href="{{ '/play/' | relative_url }}">🌟 for fun</a>
+    <div class="footer-right">
+      <div class="theme-switch" role="group" aria-label="Theme">
+        <button type="button" class="accent-dot" data-accent-set="wood" title="木 wood" aria-label="Wood accent"></button>
+        <button type="button" class="accent-dot" data-accent-set="fire" title="火 fire" aria-label="Fire accent"></button>
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle light and dark">&#9790;</button>
+      </div>
+      <a class="fun-link" href="{{ '/play/' | relative_url }}">🌟 for fun</a>
+    </div>
   </div>
 </footer>
+
+<script>
+  (function () {
+    var d = document.documentElement;
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    function save(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+    function isDark() {
+      var t = d.getAttribute('data-theme');
+      return t ? t === 'dark' : mq.matches;
+    }
+    function sync() {
+      var toggle = document.querySelector('[data-theme-toggle]');
+      if (toggle) toggle.innerHTML = isDark() ? '&#9728;' : '&#9790;'; /* ☀ / ☾ */
+      var a = d.getAttribute('data-accent') || 'wood';
+      document.querySelectorAll('[data-accent-set]').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-accent-set') === a));
+      });
+    }
+    document.querySelectorAll('[data-accent-set]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var v = b.getAttribute('data-accent-set');
+        d.setAttribute('data-accent', v); save('accent', v); sync();
+      });
+    });
+    var toggle = document.querySelector('[data-theme-toggle]');
+    if (toggle) toggle.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      d.setAttribute('data-theme', next); save('theme', next); sync();
+    });
+    /* Keep the toggle glyph in step if the OS theme changes while on auto. */
+    mq.addEventListener('change', function () {
+      if (!d.getAttribute('data-theme')) sync();
+    });
+    sync();
+  })();
+</script>

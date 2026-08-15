@@ -3,10 +3,37 @@
 :root {
   --ink: #1b1f23;
   --muted: #5b6570;
-  --accent: #0f6f5c;
   --bg: #ffffff;
   --border: #e3e6e9;
+  /* Two theme colours: 木 wood (用神, the resource that feeds the flame) and
+     火 fire (巳火, the flame's own root). --accent points at the chosen one. */
+  --accent-wood: #0f6f5c;
+  --accent-fire: #b8462b;
+  --accent: var(--accent-wood);
   --max-width: 760px;
+}
+
+/* 丁火 in 子 winter: a lamp-flame only shows against the dark. Deep water-ink
+   ground, the accent brightened so it reads as a held flame.
+   Theme switching lives under @media screen so print always falls back to the
+   base light, wood-green palette no matter what the visitor picked. */
+@mixin dark-palette {
+  --ink: #e6ebe8;
+  --muted: #8a959a;
+  --bg: #0c1013;
+  --border: #222a2e;
+  --accent-wood: #3fb89b;
+  --accent-fire: #ef8a5c;
+}
+
+@media screen {
+  /* Follow the OS until the visitor makes an explicit choice. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) { @include dark-palette; }
+  }
+  /* Explicit choice from the footer switch wins over the OS. */
+  :root[data-theme="dark"] { @include dark-palette; }
+  :root[data-accent="fire"] { --accent: var(--accent-fire); }
 }
 
 * { box-sizing: border-box; }
@@ -56,6 +83,33 @@ a:hover { text-decoration: underline; }
 }
 .site-footer .fun-link { color: var(--muted); }
 .site-footer .fun-link:hover { color: var(--accent); }
+
+/* Footer theme switch: two accent swatches (木 / 火) + a light/dark toggle. */
+.footer-right { display: flex; align-items: center; gap: 0.85rem; }
+.theme-switch { display: flex; align-items: center; gap: 0.5rem; }
+.accent-dot {
+  width: 13px; height: 13px; padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: box-shadow .15s ease;
+}
+.accent-dot[data-accent-set="wood"] { background: var(--accent-wood); }
+.accent-dot[data-accent-set="fire"] { background: var(--accent-fire); }
+.accent-dot[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--ink); }
+.accent-dot:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.theme-toggle {
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: var(--muted);
+}
+.theme-toggle:hover { color: var(--accent); }
+.theme-toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* Home page */
 .home-hero { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
@@ -202,7 +256,9 @@ a:hover { text-decoration: underline; }
 }
 
 @media print {
-  /* The Observership CV guide requires min 2cm margins and an 11-12pt body. */
+  /* The Observership CV guide requires min 2cm margins and an 11-12pt body.
+     Dark/accent overrides are scoped to @media screen, so print always uses
+     the base light, wood-green palette — no reset needed here. */
   @page { size: A4; margin: 20mm; }
   .site-header, .site-footer, .cv-print-link { display: none !important; }
   html { font-size: 11pt; }

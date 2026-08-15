@@ -1,7 +1,7 @@
 ---
 layout: cv
 title: Board CV
-title_override: "Rod Tian Board CV"
+description: "Board CV for Rod (Ruoding) Tian — engineering leadership across banking, fintech, and startups, taking AI and data from ambiguity to production."
 permalink: /board-cv/
 ---
 

@@ -2,6 +2,8 @@
 layout: post
 title: "The Sublime in Chinese Landscape Painting"
 subtitle: "A mountain you can live in"
+description: "On Fan Kuan's Travelers Among Mountains and Streams, and a sublime that invites you in rather than holding you at a distance."
+image: /assets/img/fan-kuan-travelers.jpg
 date: 2026-08-10
 ---
 

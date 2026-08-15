@@ -2,6 +2,7 @@
 layout: post
 title: "On Transcendence"
 subtitle: "the way down"
+description: "Meru, Jimmy Chin's There and Back, and why the descent — not the summit — is the part of the story that matters."
 date: 2026-08-10
 ---
 
