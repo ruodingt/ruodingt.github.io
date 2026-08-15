@@ -3,6 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    /* Apply the saved theme + accent before first paint so there's no flash.
+       No choice stored = follow the OS (prefers-color-scheme). */
+    (function () {
+      try {
+        var d = document.documentElement;
+        var t = localStorage.getItem('theme');
+        var a = localStorage.getItem('accent');
+        if (t) d.setAttribute('data-theme', t);
+        if (a) d.setAttribute('data-accent', a);
+      } catch (e) {}
+    })();
+  </script>
   {% seo %}
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   {% feed_meta %}
