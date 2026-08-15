@@ -12,6 +12,19 @@
   </div>
 </footer>
 
+<!-- The little game opens as a pop-up, not its own page. The link still points
+     at /play/ so it works without JS; the script below intercepts the click,
+     opens an overlay, and lazy-loads the game in an iframe on first open. -->
+<div class="game-modal" id="game-modal" hidden>
+  <div class="game-modal-backdrop" data-game-close></div>
+  <div class="game-modal-body" role="dialog" aria-modal="true" aria-label="Star Snacks">
+    <div class="game-modal-bar">
+      <button type="button" class="game-modal-close" data-game-close aria-label="Close">&times;</button>
+    </div>
+    <iframe class="game-frame" title="Star Snacks" loading="lazy" data-src="{{ '/play/' | relative_url }}"></iframe>
+  </div>
+</div>
+
 <script>
   (function () {
     var d = document.documentElement;
@@ -45,5 +58,32 @@
       if (!d.getAttribute('data-theme')) sync();
     });
     sync();
+
+    /* "for fun" opens the game as an overlay instead of navigating. */
+    var funLink = document.querySelector('.fun-link');
+    var modal = document.getElementById('game-modal');
+    if (funLink && modal) {
+      var frame = modal.querySelector('.game-frame');
+      var closeBtn = modal.querySelector('.game-modal-close');
+      function openGame(e) {
+        if (e) e.preventDefault();
+        if (!frame.src) frame.src = frame.getAttribute('data-src');
+        modal.hidden = false;
+        d.style.overflow = 'hidden';
+        if (closeBtn) closeBtn.focus();
+      }
+      function closeGame() {
+        modal.hidden = true;
+        d.style.overflow = '';
+        funLink.focus();
+      }
+      funLink.addEventListener('click', openGame);
+      modal.querySelectorAll('[data-game-close]').forEach(function (el) {
+        el.addEventListener('click', closeGame);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !modal.hidden) closeGame();
+      });
+    }
   })();
 </script>

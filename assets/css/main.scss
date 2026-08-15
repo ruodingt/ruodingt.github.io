@@ -111,6 +111,62 @@ a:hover { text-decoration: underline; }
 .theme-toggle:hover { color: var(--accent); }
 .theme-toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
+/* Game pop-up: the "for fun" link opens Star Snacks in an overlay iframe. */
+.game-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5vmin;
+}
+.game-modal[hidden] { display: none; }
+.game-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 6, 15, 0.72);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+.game-modal-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(1000px, 96vw);
+  height: min(760px, 92vh);
+  background: #05060f;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+/* A slim title bar carries the close button so it never sits on top of the
+   game's own controls in the top corners. */
+.game-modal-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 38px;
+  padding: 0 8px;
+  background: #0b0d16;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.game-frame { flex: 1 1 auto; display: block; width: 100%; border: 0; }
+.game-modal-close {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: transparent;
+  color: #cdd6d3;
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+}
+.game-modal-close:hover { background: rgba(255, 255, 255, 0.08); color: #eaf2f0; }
+.game-modal-close:focus-visible { outline: 2px solid #8abdb5; outline-offset: 2px; }
+
 /* Home page */
 .home-hero { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
 .home-hero img { width: 128px; height: 128px; border-radius: 50%; object-fit: cover; }
