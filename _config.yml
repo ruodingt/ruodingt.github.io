@@ -10,10 +10,31 @@ lang: en
 author:
   name: "Rod (Ruoding) Tian"
 logo: /assets/img/headshot.jpg
+# social.links becomes schema.org sameAs — the verified profiles that tie this
+# site to the same real person. Add more (X, Medium, ORCID, …) as they exist.
 social:
   name: "Rod (Ruoding) Tian"
   links:
     - https://github.com/ruodingt
+    - https://www.linkedin.com/in/ruodingt-tian/
+
+# Feeds the richer Person JSON-LD in _includes/schema-person.html.
+person:
+  job_title: "Founding Engineer"
+  works_for: "Looksi"
+  works_for_url: "https://looksi.io"
+  locality: "Melbourne"
+  region: "VIC"
+  country: "AU"
+  knows_language:
+    - "en"
+    - "zh"
+  knows_about:
+    - "Artificial Intelligence"
+    - "Machine Learning"
+    - "Data Engineering"
+    - "MLOps"
+    - "Data Science"
 
 markdown: kramdown
 
@@ -22,12 +43,17 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 
-# Default social preview image for pages that don't set their own.
+# Default social preview: a 1200x630 business-card image. The explicit
+# dimensions let LinkedIn/Facebook render the large card reliably. Individual
+# posts can still override `image` with their own picture.
 defaults:
   - scope:
       path: ""
     values:
-      image: /assets/img/headshot.jpg
+      image:
+        path: /assets/img/og-card.png
+        width: 1200
+        height: 630
 
 exclude:
   - Gemfile

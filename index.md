@@ -10,11 +10,11 @@ layout: default
   </div>
 </div>
 
-<p>
-  I'm an engineer who takes AI/ML and data problems from ambiguity through to production &mdash;
-  across banking, fintech, and startups. I lead squads, set delivery standards, and mentor engineers
-  along the way.
-</p>
+<!-- Homepage intro is single-sourced from the Board CV's personal statement
+     (_data/cv.yml). When an Engineer CV exists, switch the source here. -->
+{% for paragraph in site.data.cv.statement %}
+<p>{{ paragraph }}</p>
+{% endfor %}
 
 <div class="home-links">
   <a href="{{ '/board-cv/' | relative_url }}">View CV</a>

@@ -5,12 +5,26 @@
       <div class="theme-switch" role="group" aria-label="Theme">
         <button type="button" class="accent-dot" data-accent-set="wood" title="木 wood" aria-label="Wood accent"></button>
         <button type="button" class="accent-dot" data-accent-set="fire" title="火 fire" aria-label="Fire accent"></button>
+        <button type="button" class="bg-swatch" data-bg-cycle title="Background" aria-label="Cycle background tint"></button>
         <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle light and dark">&#9790;</button>
       </div>
       <a class="fun-link" href="{{ '/play/' | relative_url }}">🌟 for fun</a>
     </div>
   </div>
 </footer>
+
+<!-- The little game opens as a pop-up, not its own page. The link still points
+     at /play/ so it works without JS; the script below intercepts the click,
+     opens an overlay, and lazy-loads the game in an iframe on first open. -->
+<div class="game-modal" id="game-modal" hidden>
+  <div class="game-modal-backdrop" data-game-close></div>
+  <div class="game-modal-body" role="dialog" aria-modal="true" aria-label="Star Snacks">
+    <div class="game-modal-bar">
+      <button type="button" class="game-modal-close" data-game-close aria-label="Close">&times;</button>
+    </div>
+    <iframe class="game-frame" title="Star Snacks" loading="lazy" data-src="{{ '/play/' | relative_url }}"></iframe>
+  </div>
+</div>
 
 <script>
   (function () {
@@ -40,10 +54,54 @@
       var next = isDark() ? 'light' : 'dark';
       d.setAttribute('data-theme', next); save('theme', next); sync();
     });
+
+    /* Background tint cycles through the matte greens and white. */
+    var BG_ORDER = ['g2', 'g1', 'g3', 'white'];
+    var BG_LABEL = { g2: 'sage', g1: 'soft sage', g3: 'grey-green', white: 'white' };
+    var bgBtn = document.querySelector('[data-bg-cycle]');
+    if (bgBtn) {
+      var setBgTitle = function () {
+        var cur = d.getAttribute('data-bg') || 'g2';
+        bgBtn.title = 'Background: ' + (BG_LABEL[cur] || cur);
+      };
+      setBgTitle();
+      bgBtn.addEventListener('click', function () {
+        var cur = d.getAttribute('data-bg') || 'g2';
+        var next = BG_ORDER[(BG_ORDER.indexOf(cur) + 1) % BG_ORDER.length];
+        d.setAttribute('data-bg', next); save('bg', next); setBgTitle();
+      });
+    }
     /* Keep the toggle glyph in step if the OS theme changes while on auto. */
     mq.addEventListener('change', function () {
       if (!d.getAttribute('data-theme')) sync();
     });
     sync();
+
+    /* "for fun" opens the game as an overlay instead of navigating. */
+    var funLink = document.querySelector('.fun-link');
+    var modal = document.getElementById('game-modal');
+    if (funLink && modal) {
+      var frame = modal.querySelector('.game-frame');
+      var closeBtn = modal.querySelector('.game-modal-close');
+      function openGame(e) {
+        if (e) e.preventDefault();
+        if (!frame.src) frame.src = frame.getAttribute('data-src');
+        modal.hidden = false;
+        d.style.overflow = 'hidden';
+        if (closeBtn) closeBtn.focus();
+      }
+      function closeGame() {
+        modal.hidden = true;
+        d.style.overflow = '';
+        funLink.focus();
+      }
+      funLink.addEventListener('click', openGame);
+      modal.querySelectorAll('[data-game-close]').forEach(function (el) {
+        el.addEventListener('click', closeGame);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !modal.hidden) closeGame();
+      });
+    }
   })();
 </script>
