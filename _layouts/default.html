@@ -17,8 +17,12 @@
     })();
   </script>
   {% seo %}
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0c1013" media="(prefers-color-scheme: dark)">
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   {% feed_meta %}
+  {% if page.url == '/' or page.layout == 'cv' %}{% include schema-person.html %}{% endif %}
 </head>
 <body>
   {% include header.html %}

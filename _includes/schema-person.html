@@ -1,0 +1,36 @@
+{%- comment -%}
+  Rich schema.org Person for the site's owner. Emitted on the identity pages
+  (home + CV) with a stable @id so search engines resolve one canonical person.
+  Values come from _config.yml (person:, social.links, email) and _data/cv.yml
+  so this stays in sync with the CV rather than duplicating facts.
+{%- endcomment -%}
+{%- assign cv = site.data.cv -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "{{ '/#person' | absolute_url }}",
+  "mainEntityOfPage": "{{ '/' | absolute_url }}",
+  "name": {{ cv.name | default: site.title | strip_html | strip | jsonify }},
+  "url": "{{ '/' | absolute_url }}",
+  "image": "{{ '/assets/img/headshot.jpg' | absolute_url }}",
+  "description": {{ site.description | jsonify }},
+  "jobTitle": {{ site.person.job_title | jsonify }},
+  "worksFor": {
+    "@type": "Organization",
+    "name": {{ site.person.works_for | jsonify }},
+    "url": {{ site.person.works_for_url | jsonify }}
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": {{ site.person.locality | jsonify }},
+    "addressRegion": {{ site.person.region | jsonify }},
+    "addressCountry": {{ site.person.country | jsonify }}
+  },
+  "email": "mailto:{{ site.email }}",
+  "knowsLanguage": [{% for l in site.person.knows_language %}{{ l | jsonify }}{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  "knowsAbout": [{% for k in site.person.knows_about %}{{ k | jsonify }}{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  "alumniOf": [{% for e in cv.education %}{ "@type": "CollegeOrUniversity", "name": {{ e.institution | strip_html | strip | jsonify }} }{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  "sameAs": [{% for l in site.social.links %}{{ l | jsonify }}{% unless forloop.last %}, {% endunless %}{% endfor %}]
+}
+</script>
