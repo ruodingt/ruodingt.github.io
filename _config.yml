@@ -6,6 +6,9 @@ baseurl: ""
 url: "https://ruodingt.github.io"
 lang: en
 
+# Google Search Console ownership verification (HTML-tag method).
+google_site_verification: "6zg9YDF-_PcowOFSbF3yII1uxwqNtJrlGWRnFKSQgyc"
+
 # Used by jekyll-seo-tag for Open Graph, Twitter Cards, and JSON-LD.
 author:
   name: "Rod (Ruoding) Tian"
