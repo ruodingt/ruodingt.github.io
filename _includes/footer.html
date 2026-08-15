@@ -5,6 +5,7 @@
       <div class="theme-switch" role="group" aria-label="Theme">
         <button type="button" class="accent-dot" data-accent-set="wood" title="木 wood" aria-label="Wood accent"></button>
         <button type="button" class="accent-dot" data-accent-set="fire" title="火 fire" aria-label="Fire accent"></button>
+        <button type="button" class="bg-swatch" data-bg-cycle title="Background" aria-label="Cycle background tint"></button>
         <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle light and dark">&#9790;</button>
       </div>
       <a class="fun-link" href="{{ '/play/' | relative_url }}">🌟 for fun</a>
@@ -53,6 +54,23 @@
       var next = isDark() ? 'light' : 'dark';
       d.setAttribute('data-theme', next); save('theme', next); sync();
     });
+
+    /* Background tint cycles through the matte greens and white. */
+    var BG_ORDER = ['g2', 'g1', 'g3', 'white'];
+    var BG_LABEL = { g2: 'sage', g1: 'soft sage', g3: 'grey-green', white: 'white' };
+    var bgBtn = document.querySelector('[data-bg-cycle]');
+    if (bgBtn) {
+      var setBgTitle = function () {
+        var cur = d.getAttribute('data-bg') || 'g2';
+        bgBtn.title = 'Background: ' + (BG_LABEL[cur] || cur);
+      };
+      setBgTitle();
+      bgBtn.addEventListener('click', function () {
+        var cur = d.getAttribute('data-bg') || 'g2';
+        var next = BG_ORDER[(BG_ORDER.indexOf(cur) + 1) % BG_ORDER.length];
+        d.setAttribute('data-bg', next); save('bg', next); setBgTitle();
+      });
+    }
     /* Keep the toggle glyph in step if the OS theme changes while on auto. */
     mq.addEventListener('change', function () {
       if (!d.getAttribute('data-theme')) sync();

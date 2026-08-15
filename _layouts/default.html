@@ -11,8 +11,10 @@
         var d = document.documentElement;
         var t = localStorage.getItem('theme');
         var a = localStorage.getItem('accent');
+        var bg = localStorage.getItem('bg');
         if (t) d.setAttribute('data-theme', t);
         if (a) d.setAttribute('data-accent', a);
+        if (bg) d.setAttribute('data-bg', bg);
       } catch (e) {}
     })();
   </script>
