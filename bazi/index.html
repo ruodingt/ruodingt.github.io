@@ -1,0 +1,627 @@
+---
+layout: default
+title: "八字山水 · Bazi Landscape"
+description: "A small toy that reads the eight characters of a birth moment as a palette — element proportions become colour and motif, day-master strength becomes scale — and writes the landscape painting prompt that follows."
+permalink: /bazi/
+---
+
+<style>
+  /* This page is an app, so it gets more room than the 760px prose column. */
+  main.page { max-width: 1060px; }
+
+  .bz {
+    --e0: #3f6a4a; --e1: #a8402a; --e2: #936d2e; --e3: #5c6a75; --e4: #345572;
+    --card: rgba(0,0,0,0.018);
+  }
+  @media screen {
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .bz {
+        --e0: #6cab7a; --e1: #e08161; --e2: #cfa257; --e3: #9aabb7; --e4: #6d9cc4;
+        --card: rgba(255,255,255,0.035);
+      }
+    }
+    :root[data-theme="dark"] .bz {
+      --e0: #6cab7a; --e1: #e08161; --e2: #cfa257; --e3: #9aabb7; --e4: #6d9cc4;
+      --card: rgba(255,255,255,0.035);
+    }
+  }
+
+  .bz-intro { color: var(--muted); font-size: 0.95rem; }
+  .bz-intro .zh { color: var(--ink); }
+
+  /* --- form --- */
+  .bz-form {
+    display: grid; gap: 0.9rem 1.1rem; align-items: end;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.1rem 1.15rem; background: var(--card); margin: 1.4rem 0;
+  }
+  .bz-field { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+  .bz-field label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.02em; }
+  .bz-field input, .bz-field select {
+    font: inherit; font-size: 0.95rem; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; padding: 0.45rem 0.55rem; width: 100%;
+  }
+  .bz-field input:focus-visible, .bz-field select:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px;
+  }
+  .bz-check { flex-direction: row; align-items: center; gap: 0.45rem; }
+  .bz-check input { width: auto; }
+  .bz-check label { font-size: 0.85rem; color: var(--ink); }
+  .bz-actions { display: flex; gap: 0.6rem; grid-column: 1 / -1; flex-wrap: wrap; }
+  .bz-btn {
+    font: inherit; font-size: 0.9rem; cursor: pointer;
+    border: 1px solid var(--accent); background: var(--accent);
+    color: var(--bg); border-radius: 999px; padding: 0.45rem 1.1rem;
+  }
+  .bz-btn.ghost { background: none; color: var(--accent); }
+  .bz-btn:hover { filter: brightness(1.08); }
+  .bz-btn:disabled { opacity: 0.5; cursor: default; }
+
+  /* --- results --- */
+  .bz-results[hidden] { display: none; }
+  .bz-grid {
+    display: grid; gap: 1.6rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  @media (max-width: 780px) { .bz-grid { grid-template-columns: 1fr; } }
+
+  .bz-card {
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 1rem 1.1rem; background: var(--card);
+  }
+  .bz-card h3 {
+    margin: 0 0 0.7rem; font-size: 0.82rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  }
+
+  /* --- pillars --- */
+  .bz-pillars { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .bz-pillars th {
+    font-weight: 500; color: var(--muted); font-size: 0.75rem;
+    padding: 0.25rem 0.2rem; text-align: center;
+  }
+  .bz-pillars th:first-child { text-align: left; width: 3.2rem; }
+  .bz-pillars td { text-align: center; padding: 0.22rem 0.2rem; }
+  .bz-pillars td:first-child {
+    text-align: left; color: var(--muted); font-size: 0.74rem; white-space: nowrap;
+  }
+  .bz-gz {
+    font-size: 1.75rem; line-height: 1.25;
+    font-family: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif;
+  }
+  .bz-day-col { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+  .bz-hidden { font-size: 0.76rem; color: var(--muted); letter-spacing: 0.04em; }
+
+  .e0 { color: var(--e0); } .e1 { color: var(--e1); } .e2 { color: var(--e2); }
+  .e3 { color: var(--e3); } .e4 { color: var(--e4); }
+
+  /* --- element bars --- */
+  .bz-bars { display: grid; gap: 0.4rem; margin-top: 0.2rem; }
+  .bz-bar { display: grid; grid-template-columns: 1.6rem 1fr 2.6rem; align-items: center; gap: 0.5rem; }
+  .bz-bar .name { font-size: 1rem; font-family: "Songti SC", "SimSun", serif; }
+  .bz-bar .track {
+    display: block; height: 8px; border-radius: 999px;
+    background: var(--border); overflow: hidden;
+  }
+  .bz-bar .fill { display: block; height: 100%; border-radius: 999px; min-width: 2px; }
+  .bz-bar .val { font-size: 0.74rem; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+  .bz-bar.is-missing .name { opacity: 0.4; }
+
+  .bz-facts { list-style: none; margin: 0.85rem 0 0; padding: 0; font-size: 0.86rem; }
+  .bz-facts li { padding: 0.28rem 0; border-top: 1px solid var(--border); display: flex; gap: 0.7rem; }
+  .bz-facts li span:first-child { color: var(--muted); flex: 0 0 4.6rem; }
+
+  /* --- the reading --- */
+  .bz-read { list-style: none; margin: 0; padding: 0; font-size: 0.9rem; }
+  .bz-read li { padding: 0.5rem 0; border-top: 1px solid var(--border); }
+  .bz-read li:first-child { border-top: 0; padding-top: 0; }
+  .bz-read .from {
+    display: inline-block; font-size: 0.7rem; letter-spacing: 0.05em;
+    color: var(--muted); border: 1px solid var(--border);
+    border-radius: 4px; padding: 0.05rem 0.35rem; margin-right: 0.45rem;
+    font-family: "Songti SC", "SimSun", serif;
+  }
+  .bz-read .en { display: block; color: var(--muted); font-size: 0.8rem; margin-top: 0.18rem; }
+
+  /* --- painting --- */
+  .bz-paint { text-align: center; }
+  .bz-paint canvas {
+    width: 100%; max-width: 420px; height: auto; display: block; margin: 0 auto;
+    border: 1px solid var(--border); border-radius: 3px;
+    box-shadow: 0 10px 34px rgba(0,0,0,0.13);
+  }
+  .bz-title-zh {
+    font-family: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif;
+    font-size: 1.35rem; margin: 0.9rem 0 0.15rem;
+  }
+  .bz-title-en { color: var(--muted); font-size: 0.82rem; font-style: italic; }
+  .bz-poem {
+    font-family: "Songti SC", "STSong", "SimSun", serif;
+    font-size: 1rem; line-height: 1.9; margin: 0.7rem 0 0; color: var(--ink);
+  }
+
+  /* --- prompts --- */
+  .bz-prompt { position: relative; margin-top: 1.4rem; }
+  .bz-prompt-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 1rem; margin-bottom: 0.45rem;
+  }
+  .bz-prompt-head h3 { margin: 0; }
+  .bz-copy {
+    font: inherit; font-size: 0.75rem; cursor: pointer; white-space: nowrap;
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 999px; padding: 0.18rem 0.7rem;
+  }
+  .bz-copy:hover { border-color: var(--accent); color: var(--accent); }
+  .bz-copy.done { border-color: var(--accent); color: var(--accent); }
+  .bz-prompt pre {
+    margin: 0; padding: 0.85rem 0.95rem; overflow-x: auto;
+    border: 1px solid var(--border); border-radius: 8px; background: var(--card);
+    font-size: 0.82rem; line-height: 1.65; white-space: pre-wrap; word-break: break-word;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  .bz-note {
+    font-size: 0.8rem; color: var(--muted); line-height: 1.7;
+    border-top: 1px solid var(--border); margin-top: 2.4rem; padding-top: 1rem;
+  }
+  .bz-warn {
+    font-size: 0.82rem; border-left: 3px solid var(--e1);
+    padding: 0.5rem 0.8rem; margin: 1rem 0; background: var(--card);
+  }
+  .bz-error { color: var(--e1); font-size: 0.9rem; }
+</style>
+
+<div class="bz">
+
+<h1>八字山水 <span style="color:var(--muted);font-weight:400;font-size:0.62em">Bazi Landscape</span></h1>
+
+<p class="bz-intro">
+  <span class="zh">把一个出生时刻的八个字当作调色盘：五行的比例决定颜色和景物，日主的强弱决定尺度和留白，调候决定光。</span>
+  这里没有接图像模型 —— 它算出四柱，读成一幅山水，然后把提示词写给你，拿去喂 Midjourney、即梦、Flux 都行。
+  页面自己也用 canvas 画一张水墨草稿，好让你先看见大概的样子。
+</p>
+
+<form class="bz-form" id="bz-form">
+  <div class="bz-field">
+    <label for="bz-date">出生日期 Date</label>
+    <input type="date" id="bz-date" required min="1900-01-01" max="2100-12-31">
+  </div>
+  <div class="bz-field">
+    <label for="bz-time">出生时间 Time</label>
+    <input type="time" id="bz-time" value="12:00" required>
+  </div>
+  <div class="bz-field">
+    <label for="bz-tz">时区 Timezone</label>
+    <select id="bz-tz">
+      <option value="8" data-lon="116.4" selected>+8 北京/香港</option>
+      <option value="9" data-lon="139.7">+9 东京/首尔</option>
+      <option value="10" data-lon="145.0">+10 墨尔本 冬令</option>
+      <option value="11" data-lon="145.0">+11 墨尔本 夏令</option>
+      <option value="7" data-lon="100.5">+7 曼谷</option>
+      <option value="5.5" data-lon="77.2">+5:30 印度</option>
+      <option value="1" data-lon="13.4">+1 中欧</option>
+      <option value="0" data-lon="-0.13">±0 伦敦</option>
+      <option value="-5" data-lon="-74.0">−5 纽约 冬令</option>
+      <option value="-4" data-lon="-74.0">−4 纽约 夏令</option>
+      <option value="-8" data-lon="-118.2">−8 洛杉矶 冬令</option>
+      <option value="-7" data-lon="-118.2">−7 洛杉矶 夏令</option>
+    </select>
+  </div>
+  <div class="bz-field">
+    <label for="bz-lon">出生地经度 Longitude（东正西负）</label>
+    <input type="number" id="bz-lon" step="0.01" min="-180" max="180" value="116.4" placeholder="116.4">
+  </div>
+  <div class="bz-field bz-check">
+    <input type="checkbox" id="bz-truesolar" checked>
+    <label for="bz-truesolar">用真太阳时</label>
+  </div>
+  <div class="bz-actions">
+    <button type="submit" class="bz-btn">生成 Generate</button>
+    <button type="button" class="bz-btn ghost" id="bz-reroll" disabled>换一张 Re-roll</button>
+    <button type="button" class="bz-btn ghost" id="bz-download" disabled>下载水墨稿 PNG</button>
+    <span class="bz-error" id="bz-error"></span>
+  </div>
+</form>
+
+<div class="bz-results" id="bz-results" hidden>
+
+  <div id="bz-boundary"></div>
+
+  <div class="bz-grid">
+    <div>
+      <div class="bz-card bz-paint">
+        <h3>水墨草稿 Ink draft</h3>
+        <canvas id="bz-canvas" width="900" height="1200" aria-label="生成的水墨山水草稿"></canvas>
+        <p class="bz-title-zh" id="bz-title"></p>
+        <p class="bz-title-en" id="bz-title-en"></p>
+        <p class="bz-poem" id="bz-poem"></p>
+      </div>
+    </div>
+
+    <div>
+      <div class="bz-card">
+        <h3>四柱 Four pillars</h3>
+        <table class="bz-pillars" id="bz-pillars"></table>
+        <ul class="bz-facts" id="bz-facts"></ul>
+      </div>
+
+      <div class="bz-card" style="margin-top:1.1rem">
+        <h3>五行 Five elements</h3>
+        <div class="bz-bars" id="bz-bars"></div>
+      </div>
+
+      <div class="bz-card" style="margin-top:1.1rem">
+        <h3>读图 How the chart became the picture</h3>
+        <ul class="bz-read" id="bz-read"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bz-prompt">
+    <div class="bz-prompt-head">
+      <h3>中文提示词 · 详版</h3>
+      <button class="bz-copy" data-copy="bz-p-zh">复制</button>
+    </div>
+    <pre id="bz-p-zh"></pre>
+  </div>
+
+  <div class="bz-prompt">
+    <div class="bz-prompt-head">
+      <h3>English prompt · full</h3>
+      <button class="bz-copy" data-copy="bz-p-en">Copy</button>
+    </div>
+    <pre id="bz-p-en"></pre>
+  </div>
+
+  <div class="bz-grid" style="margin-top:1.4rem">
+    <div class="bz-prompt" style="margin-top:0">
+      <div class="bz-prompt-head">
+        <h3>单行版 · Midjourney</h3>
+        <button class="bz-copy" data-copy="bz-p-one">Copy</button>
+      </div>
+      <pre id="bz-p-one"></pre>
+    </div>
+    <div class="bz-prompt" style="margin-top:0">
+      <div class="bz-prompt-head">
+        <h3>反向提示词 Negative</h3>
+        <button class="bz-copy" data-copy="bz-p-neg">Copy</button>
+      </div>
+      <pre id="bz-p-neg"></pre>
+      <p style="font-size:0.78rem;color:var(--muted);margin:0.6rem 0 0" id="bz-params"></p>
+    </div>
+  </div>
+</div>
+
+<p class="bz-note" id="bz-note">
+  <strong>关于准确度。</strong>
+  月柱按节气分界，节气时刻由太阳视黄经直接解算，不查表 —— 1900–2100 年间与权威历书相差通常在五分钟以内。
+  日柱以 23:00 起子时换日。勾选真太阳时后，会按出生地经度和均时差修正时辰。
+  若出生时刻正落在节气交接的一小时内，页面会提示你去核对权威历书：那种情况下月柱可能整柱不同。
+  <br><br>
+  <strong>这是什么，不是什么。</strong>
+  这是一个把八字读成画的玩具，五行比例、日主强弱、调候都只被用来选颜色、选景物、定构图。
+  它不预测任何事，也不该被当作命理咨询。
+  <br><br>
+  算法和映射都在
+  <a href="{{ '/assets/js/bazi-engine.js' | relative_url }}">bazi-engine.js</a> 与
+  <a href="{{ '/assets/js/bazi-art.js' | relative_url }}">bazi-art.js</a> 里，可以自己改词表。
+</p>
+
+</div>
+
+<script src="{{ '/assets/js/bazi-engine.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/bazi-art.js' | relative_url }}"></script>
+{% raw %}
+<script>
+(function () {
+  'use strict';
+  var E = window.BaziEngine, A = window.BaziArt;
+  var $ = function (id) { return document.getElementById(id); };
+
+  var form = $('bz-form');
+  var results = $('bz-results');
+  var canvas = $('bz-canvas');
+  var errorEl = $('bz-error');
+  var state = null;
+  var variation = 0;
+
+  var ELEMENTS = ['木', '火', '土', '金', '水'];
+  var ELEMENT_EN = ['wood', 'fire', 'earth', 'metal', 'water'];
+  var PILLAR_LABEL = ['年柱', '月柱', '日柱', '时柱'];
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function slug(s) {
+    return String(s).toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+  function stamp(t) {
+    return t.year + '-' + pad(t.month) + '-' + pad(t.day) + ' ' + pad(t.hour) + ':' + pad(t.minute);
+  }
+
+  /* ---------- reading the form ---------- */
+
+  function readForm() {
+    var d = $('bz-date').value;
+    var t = $('bz-time').value || '12:00';
+    if (!d) throw new Error('请先填出生日期');
+    var dm = d.split('-').map(Number);
+    var tm = t.split(':').map(Number);
+    var lonRaw = parseFloat($('bz-lon').value);
+    return {
+      year: dm[0], month: dm[1], day: dm[2],
+      hour: tm[0], minute: tm[1] || 0,
+      tz: parseFloat($('bz-tz').value),
+      longitude: isNaN(lonRaw) ? null : lonRaw,
+      trueSolar: $('bz-truesolar').checked && !isNaN(lonRaw)
+    };
+  }
+
+  /* ---------- rendering ---------- */
+
+  function renderPillars(chart, a) {
+    var cols = chart.list;
+    var rows = [];
+    rows.push('<tr><th></th>' + cols.map(function (p, i) {
+      return '<th' + (i === 2 ? ' class="bz-day-col"' : '') + '>' + PILLAR_LABEL[i] + '</th>';
+    }).join('') + '</tr>');
+
+    rows.push('<tr><td>十神</td>' + cols.map(function (p, i) {
+      return '<td' + (i === 2 ? ' class="bz-day-col"' : '') +
+        ' style="font-size:0.78rem;color:var(--muted)">' + a.tenGods[i] + '</td>';
+    }).join('') + '</tr>');
+
+    rows.push('<tr><td>天干</td>' + cols.map(function (p, i) {
+      return '<td class="bz-gz e' + p.stemElement + (i === 2 ? ' bz-day-col' : '') + '">' +
+        p.stemChar + '</td>';
+    }).join('') + '</tr>');
+
+    rows.push('<tr><td>地支</td>' + cols.map(function (p, i) {
+      return '<td class="bz-gz e' + p.branchElement + (i === 2 ? ' bz-day-col' : '') + '">' +
+        p.branchChar + '</td>';
+    }).join('') + '</tr>');
+
+    rows.push('<tr><td>藏干</td>' + cols.map(function (p, i) {
+      var hid = E.HIDDEN[p.branch].map(function (h) {
+        return '<span class="e' + E.STEM_ELEMENT[h[0]] + '">' + E.STEMS[h[0]] + '</span>';
+      }).join('');
+      return '<td class="bz-hidden' + (i === 2 ? ' bz-day-col' : '') + '">' + hid + '</td>';
+    }).join('') + '</tr>');
+
+    $('bz-pillars').innerHTML = rows.join('');
+  }
+
+  function renderFacts(chart, a) {
+    var dmEl = ELEMENTS[chart.dayMasterElement];
+    var facts = [
+      ['日主', chart.dayMasterChar + dmEl + '，' + (chart.dayMasterYang ? '阳' : '阴') +
+        '，生于' + chart.pillars.month.branchChar + '月（' + chart.season + '）'],
+      ['强弱', a.strength + '（同类占 ' + Math.round(a.strengthRatio * 100) + '%）' +
+        (a.onDuty ? '，得月令' : '，不得月令')],
+      ['用神', ELEMENTS[a.favoured] + (a.climate ? '；' + a.climate.note : '')],
+      ['节气', chart.term.name + ' ' + stamp(chart.term.at) + ' 起']
+    ];
+    var rel = [].concat(
+      a.relations.clash,
+      a.relations.harmony,
+      a.relations.stemHarmony,
+      a.relations.triad.map(function (t) { return t.name; })
+    );
+    if (rel.length) facts.push(['刑冲合', rel.join('、')]);
+    if (chart.trueSolarShift) {
+      facts.push(['真太阳时', (chart.trueSolarShift > 0 ? '+' : '') +
+        chart.trueSolarShift.toFixed(0) + ' 分钟 → ' +
+        pad(chart.localClock.hour) + ':' + pad(chart.localClock.minute) +
+        '（' + A.HOUR_LIGHT[chart.pillars.hour.branch].name + '）']);
+    }
+    $('bz-facts').innerHTML = facts.map(function (f) {
+      return '<li><span>' + f[0] + '</span><span>' + esc(f[1]) + '</span></li>';
+    }).join('');
+  }
+
+  function renderBars(a) {
+    var max = Math.max.apply(null, a.seasoned);
+    $('bz-bars').innerHTML = a.seasoned.map(function (v, i) {
+      var pct = max > 0 ? (v / max) * 100 : 0;
+      var missing = a.missing.indexOf(i) >= 0;
+      return '<div class="bz-bar' + (missing ? ' is-missing' : '') + '">' +
+        '<span class="name e' + i + '">' + ELEMENTS[i] + '</span>' +
+        '<span class="track"><span class="fill" style="width:' + pct.toFixed(1) +
+        '%;background:var(--e' + i + ')"></span></span>' +
+        '<span class="val">' + (missing ? '无' : v.toFixed(2)) + '</span>' +
+        '</div>';
+    }).join('');
+  }
+
+  /* Every line here names the character it came from, so the mapping is
+     inspectable rather than mysterious. */
+  function renderReading(chart, a, R) {
+    var items = [];
+    items.push([chart.dayMasterChar, '主体：' + R.protagonist.zh, R.protagonist.en]);
+    items.push([chart.pillars.month.branchChar + '月',
+      '时节：' + R.season.zh, R.season.en]);
+    items.push([A.HOUR_LIGHT[chart.pillars.hour.branch].name,
+      '光：' + R.light.zh, R.light.en]);
+    items.push([ELEMENTS[R.dominant] + '最旺',
+      '景物与皴法：' + R.motifs.join('、') + '；' + R.scene.cun, R.scene.cunEn]);
+    items.push([a.strength, '构图：' + R.composition.zh, R.composition.en]);
+    if (R.topGod) items.push([R.topGod, '点景：' + R.staffage.zh, R.staffage.en]);
+    if (R.weather.drama || a.relations.harmony.length) {
+      var src = a.relations.clash.length ? a.relations.clash.join('') :
+        (a.relations.harmony[0] || a.relations.stemHarmony[0] || '');
+      items.push([src || '气', '气象：' + R.weather.zh, R.weather.en]);
+    }
+    if (R.floods) items.push([R.floods.name, '全幅弥漫' + ELEMENTS[R.floods.element] + '气', '']);
+    if (R.absence) items.push(['缺' + R.absence.elements.map(function (e) { return ELEMENTS[e]; }).join(''),
+      '留白：' + R.absence.zh, R.absence.en]);
+    if (a.climate) items.push(['调候', a.climate.note + ' → ' +
+      (a.climate.need === 1 ? '纸色偏暖，画中留一点灯火' : '纸色偏冷，水与阴影加重'), a.climate.en]);
+
+    $('bz-read').innerHTML = items.map(function (it) {
+      return '<li><span class="from">' + esc(it[0]) + '</span>' + esc(it[1]) +
+        (it[2] ? '<span class="en">' + esc(it[2]) + '</span>' : '') + '</li>';
+    }).join('');
+  }
+
+  function renderBoundary(chart) {
+    var t = chart.term;
+    if (!t.nearBoundary) { $('bz-boundary').innerHTML = ''; return; }
+    var near = t.boundarySide === 'open'
+      ? t.name + '（' + stamp(t.at) + '）'
+      : t.next + '（' + stamp(t.nextAt) + '）';
+    var mins = Math.round(Math.min(t.hoursSinceOpen, t.hoursToClose) * 60);
+    $('bz-boundary').innerHTML = '<p class="bz-warn"><strong>节气边界。</strong>' +
+      '这个出生时刻距离' + esc(near) + '只有 ' + mins + ' 分钟。' +
+      '本页的太阳位置算法误差约五分钟，这么近的时候月柱可能整柱不同 —— ' +
+      '请拿权威历书核对一下再用。</p>';
+  }
+
+  function renderPrompts(P) {
+    $('bz-title').textContent = '《' + P.title + '》';
+    $('bz-title-en').textContent = P.titleEn;
+    $('bz-poem').innerHTML = esc(P.poem[0]) + '<br>' + esc(P.poem[1]);
+    $('bz-p-zh').textContent = P.zh;
+    $('bz-p-en').textContent = P.en;
+    $('bz-p-one').textContent = P.oneLine;
+    $('bz-p-neg').textContent = P.negative;
+    $('bz-params').textContent = 'Midjourney ' + P.params.midjourney +
+      ' · SD ' + P.params.sd + ' · ' + P.params.note;
+  }
+
+  /* ---------- driving it ---------- */
+
+  function generate(opts, keepVariation) {
+    if (!keepVariation) variation = 0;
+    var chart = E.computeChart(opts);
+    var a = E.analyse(chart);
+    var R = A.buildReading(chart, a, variation);
+    var P = A.buildPrompts(chart, a, R);
+
+    renderPillars(chart, a);
+    renderFacts(chart, a);
+    renderBars(a);
+    renderReading(chart, a, R);
+    renderBoundary(chart);
+    renderPrompts(P);
+    A.paint(canvas, chart, a, R);
+
+    state = { opts: opts, chart: chart, a: a, R: R, P: P };
+    results.hidden = false;
+    $('bz-reroll').disabled = false;
+    $('bz-download').disabled = false;
+  }
+
+  function syncUrl(o) {
+    var q = new URLSearchParams({
+      d: o.year + '-' + pad(o.month) + '-' + pad(o.day),
+      t: pad(o.hour) + ':' + pad(o.minute),
+      tz: String(o.tz)
+    });
+    if (o.longitude !== null) q.set('lon', String(o.longitude));
+    if (o.trueSolar) q.set('ts', '1');
+    history.replaceState(null, '', location.pathname + '?' + q.toString());
+  }
+
+  /* Switching timezone without switching longitude silently corrupts true
+     solar time — Melbourne on Beijing's meridian is an hour and a half of
+     error. Follow the timezone unless the visitor has typed their own. */
+  var lonTouched = false;
+  $('bz-lon').addEventListener('input', function () { lonTouched = true; });
+  $('bz-tz').addEventListener('change', function () {
+    if (lonTouched) return;
+    var opt = $('bz-tz').selectedOptions[0];
+    if (opt && opt.dataset.lon) $('bz-lon').value = opt.dataset.lon;
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    errorEl.textContent = '';
+    try {
+      var opts = readForm();
+      generate(opts, false);
+      syncUrl(opts);
+    } catch (err) {
+      errorEl.textContent = err.message || String(err);
+    }
+  });
+
+  $('bz-reroll').addEventListener('click', function () {
+    if (!state) return;
+    variation += 1;
+    generate(state.opts, true);
+  });
+
+  $('bz-download').addEventListener('click', function () {
+    if (!state) return;
+    /* A blob URL, not a data: URL — browsers drop the `download` filename on
+       data: hrefs. The anchor also has to be in the document when clicked,
+       and the name has to be ASCII: a CJK filename is silently discarded on
+       some platforms and the file lands as "download" with no extension. */
+    var o = state.opts;
+    var name = (slug(state.P.titleEn) || 'bazi-landscape') + '-' +
+      o.year + pad(o.month) + pad(o.day) + '-' + pad(o.hour) + pad(o.minute) + '.png';
+    canvas.toBlob(function (blob) {
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement('a');
+      link.download = name;
+      link.href = url;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }, 'image/png');
+  });
+
+  document.querySelectorAll('.bz-copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = $(btn.getAttribute('data-copy')).textContent;
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = '已复制 ✓';
+        btn.classList.add('done');
+        setTimeout(function () { btn.textContent = old; btn.classList.remove('done'); }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+      } else {
+        fallback(text, done);
+      }
+    });
+  });
+
+  function fallback(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { /* nothing to do */ }
+    document.body.removeChild(ta);
+  }
+
+  /* ---------- restore from the query string, so a result is shareable ---------- */
+
+  (function boot() {
+    var q = new URLSearchParams(location.search);
+    if (q.get('d')) {
+      $('bz-date').value = q.get('d');
+      if (q.get('t')) $('bz-time').value = q.get('t');
+      if (q.get('tz')) $('bz-tz').value = q.get('tz');
+      if (q.get('lon')) { $('bz-lon').value = q.get('lon'); lonTouched = true; }
+      $('bz-truesolar').checked = q.get('ts') === '1';
+      try { generate(readForm(), false); } catch (e) { /* leave the form for the visitor */ }
+    }
+  })();
+})();
+</script>
+{% endraw %}
