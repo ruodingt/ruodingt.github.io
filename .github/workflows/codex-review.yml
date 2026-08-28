@@ -1,0 +1,119 @@
+name: Codex bot review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  # A ChatGPT-managed auth cache must never be used by concurrent jobs.
+  group: codex-subscription-review
+  cancel-in-progress: false
+
+jobs:
+  review:
+    # This repository is public. Never expose personal Codex credentials to
+    # pull requests opened by untrusted accounts.
+    if: >-
+      github.event.pull_request.draft == false &&
+      github.actor == github.repository_owner
+    runs-on: [self-hosted, linux, x64, codex-review]
+    permissions:
+      contents: read
+    env:
+      CODEX_HOME: ${{ vars.CODEX_REVIEW_HOME }}
+    steps:
+      - name: Validate persistent Codex home
+        shell: bash
+        run: |
+          if [[ -z "$CODEX_HOME" || "$CODEX_HOME" != /* ]]; then
+            echo "CODEX_REVIEW_HOME must be an absolute persistent path" >&2
+            exit 1
+          fi
+          install -d -m 700 "$CODEX_HOME"
+
+      - name: Bootstrap subscription authentication
+        shell: bash
+        env:
+          CODEX_AUTH_JSON: ${{ secrets.CODEX_AUTH_JSON }}
+        run: |
+          if [[ ! -s "$CODEX_HOME/auth.json" ]]; then
+            if [[ -z "$CODEX_AUTH_JSON" ]]; then
+              echo "CODEX_AUTH_JSON is required to bootstrap this runner" >&2
+              exit 1
+            fi
+            umask 077
+            printf '%s' "$CODEX_AUTH_JSON" > "$CODEX_HOME/auth.json"
+          fi
+
+          jq -e '
+            .auth_mode == "chatgpt" and
+            ((.tokens.refresh_token // "") | length > 0)
+          ' "$CODEX_HOME/auth.json" >/dev/null
+          chmod 600 "$CODEX_HOME/auth.json"
+
+      - name: Check out pull request merge commit
+        uses: actions/checkout@v6
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Load trusted review policy from the base commit
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git show "$BASE_SHA:.github/codex/review-prompt.md" \
+            > "$RUNNER_TEMP/codex-review-prompt.md"
+          git show "$BASE_SHA:.github/codex/review-schema.json" \
+            > "$RUNNER_TEMP/codex-review-schema.json"
+
+      - name: Review with Codex
+        shell: bash
+        run: |
+          codex exec \
+            --ephemeral \
+            --sandbox read-only \
+            --ignore-user-config \
+            --ignore-rules \
+            --output-schema "$RUNNER_TEMP/codex-review-schema.json" \
+            --output-last-message "$RUNNER_TEMP/codex-review.json" \
+            - < "$RUNNER_TEMP/codex-review-prompt.md"
+          jq -e '
+            (.verdict == "APPROVE" or .verdict == "REQUEST_CHANGES") and
+            (.body | type == "string" and length > 0)
+          ' "$RUNNER_TEMP/codex-review.json" >/dev/null
+
+      - name: Create review bot token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.REVIEW_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.REVIEW_BOT_PRIVATE_KEY }}
+          permission-pull-requests: write
+
+      - name: Submit pull request review
+        uses: actions/github-script@v8
+        env:
+          CODEX_REVIEW_FILE: ${{ runner.temp }}/codex-review.json
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const fs = require('fs');
+            const review = JSON.parse(
+              fs.readFileSync(process.env.CODEX_REVIEW_FILE, 'utf8')
+            );
+            const allowed = new Set(['APPROVE', 'REQUEST_CHANGES']);
+            if (!allowed.has(review.verdict)) {
+              core.setFailed(`Unexpected review verdict: ${review.verdict}`);
+              return;
+            }
+
+            await github.rest.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              event: review.verdict,
+              body: review.body,
+              commit_id: context.payload.pull_request.head.sha,
+            });
