@@ -19,6 +19,7 @@ jobs:
     runs-on: [self-hosted, linux, x64, codex-review]
     permissions:
       contents: read
+      pull-requests: write
     env:
       CODEX_HOME: ${{ vars.CODEX_REVIEW_HOME }}
     steps:
@@ -84,20 +85,12 @@ jobs:
             (.body | type == "string" and length > 0)
           ' "$RUNNER_TEMP/codex-review.json" >/dev/null
 
-      - name: Create review bot token
-        id: app-token
-        uses: actions/create-github-app-token@v3
-        with:
-          client-id: ${{ vars.REVIEW_BOT_CLIENT_ID }}
-          private-key: ${{ secrets.REVIEW_BOT_PRIVATE_KEY }}
-          permission-pull-requests: write
-
       - name: Submit pull request review
         uses: actions/github-script@v8
         env:
           CODEX_REVIEW_FILE: ${{ runner.temp }}/codex-review.json
         with:
-          github-token: ${{ steps.app-token.outputs.token }}
+          github-token: ${{ github.token }}
           script: |
             const fs = require('fs');
             const review = JSON.parse(

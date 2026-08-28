@@ -19,8 +19,8 @@ bundle exec jekyll serve
 
 `.github/workflows/codex-review.yml` reviews each non-draft pull request opened by
 the repository owner and submits either an approval or a change request from a
-dedicated GitHub App bot. The policy is intentionally approval-first: only a
-verified, material defect should produce `REQUEST_CHANGES`.
+`github-actions[bot]`. The policy is intentionally approval-first: only a verified,
+material defect should produce `REQUEST_CHANGES`.
 
 Repository configuration required by the workflow:
 
@@ -34,13 +34,11 @@ Repository configuration required by the workflow:
   local `codex login` using ChatGPT subscription authentication. This bootstraps
   the runner only when its persistent auth file is missing; never paste a lone
   access token or commit this file.
-- Variable `REVIEW_BOT_CLIENT_ID`: the client ID of a GitHub App installed on this
-  repository.
-- Secret `REVIEW_BOT_PRIVATE_KEY`: a private key generated for that GitHub App.
-
-The GitHub App only needs read access to metadata and read/write access to pull
-requests. The workflow requests a repository-scoped installation token and limits
-it to pull-request writes when submitting the review.
+- In **Settings → Actions → General → Workflow permissions**, enable **Allow
+  GitHub Actions to create and approve pull requests**. The workflow grants its
+  short-lived `GITHUB_TOKEN` only read access to contents and write access to pull
+  requests, so the submitted review is attributed to `github-actions[bot]` rather
+  than the repository owner.
 
 Personal subscription authentication in CI is an advanced OpenAI-supported pattern
 for trusted private automation. Because this repository is public, the workflow is
