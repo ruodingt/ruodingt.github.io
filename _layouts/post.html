@@ -7,3 +7,7 @@ layout: default
   <p class="post-meta">{{ page.date | date: "%B %-d, %Y" }}</p>
   {{ content }}
 </article>
+{% if content contains 'class="mermaid"' %}
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true, theme:'default'});</script>
+{% endif %}
