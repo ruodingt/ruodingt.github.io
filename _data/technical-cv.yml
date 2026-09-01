@@ -1,0 +1,119 @@
+name: "Rod (Ruoding) Tian"
+tagline: "ML, Data & Platform Engineering"
+location: "Melbourne, VIC"
+email: "t.ruoding@gmail.com"
+linkedin: "https://www.linkedin.com/in/ruodingt-tian/"
+
+statement:
+  - "I work across ML, data engineering, platform, product, and designing resilient event-driven systems — not because I lack focus, but because the problems that need to be solved rarely sit inside one boundary. At ANZ Plus I co-authored the bank's position paper on responsible AI experiments and drove the platform patterns teams now start from. At three startups I took systems from first prototype to production, built the teams around them, and closed the resource gaps a small organisation cannot fill on its own. I lead by providing context and perspective, so the people around me can make informed decisions and grow on their own terms. Growth, for me, is about both competence and character. I take initiative and drive problems to resolution, regardless of where they sit. I care about the decisions behind the system as much as the system itself — I look past the tree to see the forest. Tech is just one part of a commercial engine with complex dynamics, and the way forward is to remove friction, not to promote harder."
+
+experience:
+  - company: "Looksi"
+    title: "Founding Engineer"
+    dates: "Jul 2026 &ndash; Present"
+    location: "Melbourne, VIC"
+    achievements:
+      - "Built the commercial and technical foundations a startup runs on: website, CRM, analytics, SEO/GEO, and process automation — enabling a small team to run without hiring a specialist for each function."
+
+  - title: "Creative sabbatical &mdash; travelling, reading and writing"
+    dates: "Jan 2026 &ndash; Jun 2026"
+
+  - company: "ANZ Plus"
+    title: "Senior Engineer, Customer Engagement AI"
+    dates: "Jul 2023 &ndash; Dec 2025"
+    location: "Melbourne, VIC"
+    context: "ANZ's digital bank, which passed one million customers in 2025."
+    achievements:
+      - "Sat on a technology committee and co-authored its position paper on running **AI/ML** experiments responsibly within banking. It gave teams across the bank a clear pattern for building AI inside the guardrails, instead of working the path out project by project."
+      - "Improved response speed and quality for ANZ Plus's one million customers by automating ticket triage and quality assurance &mdash; work the contact centre previously did by hand. Led the end-to-end delivery: data pipeline, model training, and production serving. (**DBT**, **BigQuery**, **Vertex AI**)"
+      - "Unlocked a compliant pathway for ANZ Plus's data analytics and data science community to work within banking risk and security frameworks. The investment laid a foundation for 20+ projects over two years, and was later adopted by the central platform team for broader impact. (**KCC**, **GKE**)"
+      - "Delivered **AI/Deep Learning/LLM** training workshops to the data analyst community, and mentored engineers on problem-solving and growth."
+
+  - company: "ANZ Plus"
+    title: "Platform/Data Engineer"
+    dates: "Jun 2022 &ndash; Jul 2023"
+    location: "Melbourne, VIC"
+    achievements:
+      - "Set up new patterns in **CI** automation and integration tests, enabling parallel cloud integration testing across feature branches &mdash; reducing friction for all teams building on the platform. (**GitHub Actions**, **Java**, **Python**, **Docker**, **Terraform**)"
+      - "Built and operated a streaming data pipeline serving real-time customer engagement data."
+      - "Acted as incident commander on multiple production incidents, driving resolution under the bank's central risk framework."
+
+  - company: "BizPay"
+    title: "Machine Learning Engineer (Contract)"
+    dates: "Jan 2022 &ndash; Apr 2022"
+    location: "Melbourne, VIC"
+    context: "A buy-now-pay-later FinTech solving cash flow issues for business invoices."
+    achievements:
+      - "Partnered with the credit risk team to co-design and deliver a semi-automated credit assessment process, eliminating most manual assessment workload. (**Pub/Sub**, **PostgreSQL**, **Streamlit**)"
+
+  - company: "Trendii (Referboard)"
+    title: "Lead Research Engineer, Computer Vision & Data"
+    dates: "Nov 2020 &ndash; Jan 2022"
+    location: "Melbourne, VIC"
+    context: "A MarketingTech startup enabling contextualised advertisement placement at scale."
+    achievements:
+      - "Led the R&D in Trendii's Vision AI &mdash; instance segmentation and reverse image search &mdash; the technology the core product depended on. Grew the team that now sustains it. (**multi-GPU DDP**, **PyTorch-Lightning**, **Docker**, **GKE**)"
+      - "Closed the team's cloud and talent gaps by bringing in two university professors as advisors and driving the procurement of a cloud consulting vendor &mdash; resources the startup could not have afforded on its own."
+      - "Established internal standards and tool chain (**Makefile**, **CD pipelines**), enabling efficient, reproducible model training and fast-tracking the path from training to deployment."
+
+  - company: "Pearlii"
+    title: "Founding Machine Learning Engineer, Computer Vision"
+    dates: "Nov 2019 &ndash; Nov 2020"
+    location: "Fitzroy, VIC"
+    context: "A social-mission startup: a free smartphone-based tooth check, built to raise oral health awareness and narrow the gap for people who put off seeing a dentist on cost."
+    achievements:
+      - "Joined before the company was incorporated. Owned the technology end to end: designed and implemented Pearlii's Vision AI system, built and managed a data annotation team of practising dentists, and took the system from first prototype to production. (**PyTorch**, **Docker**, **REST API**, **AWS**)"
+      - "Established internal **ML** practices from 0 to 1: proofs-of-concept, experiment tracking, and model deployment."
+      - "Worked with the founders to prepare for investor meetings."
+
+  - company: "Entity Solution / Telstra"
+    title: "Software Engineer (AI) (Contract)"
+    dates: "Jan 2019 &ndash; Sep 2019"
+    location: "Melbourne, VIC"
+    context: "Telstra's Big Data Team &mdash; an innovation-focused R&D task force serving the enterprise's internal needs."
+    achievements:
+      - "Developed PoCs using **AI** and language models (incl. **BERT**) to automate business processes in the call centre."
+      - "Took ownership of search engine evaluation and performance tuning, improving recall and precision for knowledge document retrieval."
+      - "Delivered production-grade solutions with **Python**, **CI/CD**, and unit tests."
+
+education:
+  - degree: "Master of Data Science"
+    institution: "University of Melbourne"
+    dates: "2018"
+    location: "Melbourne, VIC"
+  - degree: "Entrepreneurship Program"
+    institution: "Nanyang Technological University, Singapore"
+    dates: "2016"
+    note: "A winter exchange taken within the Master of Data Science, covering business modelling, valuation and financial projection. Melbourne Global Scholars Award and Engineering Exchange Scholarship."
+  - degree: "Bachelor of Engineering (Opto-electronics)"
+    institution: "Beihang University (BUAA), Beijing"
+    institution_url: "https://ev.buaa.edu.cn/"
+    dates: "2015"
+    location: "Beijing, China"
+
+print:
+  font_presets:
+    - label: "Compact"
+      size: "9pt"
+    - label: "Normal"
+      size: "10pt"
+    - label: "Relaxed"
+      size: "11pt"
+  default_font: "10pt"
+  entries:
+    - label: "Looksi — Founding Engineer"
+      default: true
+    - label: "Creative sabbatical"
+      default: false
+    - label: "ANZ Plus — Senior Engineer, Customer Engagement AI"
+      default: true
+    - label: "ANZ Plus — Platform/Data Engineer"
+      default: true
+    - label: "BizPay — Machine Learning Engineer"
+      default: true
+    - label: "Trendii — Lead Research Engineer"
+      default: true
+    - label: "Pearlii — Founding ML Engineer"
+      default: true
+    - label: "Entity Solution / Telstra — Software Engineer (AI)"
+      default: false

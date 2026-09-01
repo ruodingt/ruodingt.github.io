@@ -10,13 +10,21 @@ layout: default
   </div>
 </div>
 
-<!-- Homepage intro is single-sourced from the Board CV's personal statement
-     (_data/cv.yml). When an Engineer CV exists, switch the source here. -->
 {% for paragraph in site.data.cv.statement %}
 <p>{{ paragraph }}</p>
 {% endfor %}
 
-<div class="home-links">
-  <a href="{{ '/board-cv/' | relative_url }}">View CV</a>
-  <a href="{{ '/blog/' | relative_url }}">Read the blog</a>
+<div class="home-cards">
+  <a class="home-card" href="{{ '/board-cv/' | relative_url }}">
+    <span class="home-card-title">Board CV</span>
+    <span class="home-card-desc">Engineering leadership for board and governance contexts</span>
+  </a>
+  <a class="home-card" href="{{ '/technical-cv/' | relative_url }}">
+    <span class="home-card-title">Tech CV</span>
+    <span class="home-card-desc">ML, data engineering, and platform work</span>
+  </a>
+  <a class="home-card" href="{{ '/blog/' | relative_url }}">
+    <span class="home-card-title">Blog</span>
+    <span class="home-card-desc">Writing on art, books, and the systems people live inside</span>
+  </a>
 </div>

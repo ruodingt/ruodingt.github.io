@@ -46,7 +46,7 @@ permalink: /board-cv/
     {% if job.achievements %}
     <ul>
       {% for item in job.achievements %}
-      <li>{% if item contains "[TO ADD" %}<span class="cv-todo">{{ item }}</span>{% else %}{{ item }}{% endif %}</li>
+      <li>{% if item contains "[TO ADD" %}<span class="cv-todo">{{ item }}</span>{% else %}{{ item | markdownify }}{% endif %}</li>
       {% endfor %}
     </ul>
     {% endif %}
@@ -71,7 +71,7 @@ permalink: /board-cv/
   <h2>Community and Mentoring</h2>
   <ul class="cv-attributes">
     {% for c in site.data.cv.community %}
-    <li>{% if c.title contains "[TO ADD" or c.detail contains "[TO ADD" %}<span class="cv-todo"><strong>{{ c.title }}.</strong> {{ c.detail }}</span>{% else %}<strong>{{ c.title }}.</strong> {{ c.detail }}{% endif %}</li>
+    <li>{% if c.title contains "[TO ADD" or c.detail contains "[TO ADD" %}<span class="cv-todo"><strong>{{ c.title }}.</strong> {{ c.detail }}</span>{% else %}<strong>{{ c.title }}.</strong> {{ c.detail | markdownify }}{% endif %}</li>
     {% endfor %}
   </ul>
 </section>
